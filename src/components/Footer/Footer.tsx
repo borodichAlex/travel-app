@@ -3,8 +3,6 @@ import rsLogo from "../../assets/rs_logo.svg";
 import s from "./Footer.module.scss";
 
 export default function Footer() {
-  console.log(s);
-
   return (
     <footer className={s.footer}>
       <div className={s.github}>
