@@ -1,12 +1,32 @@
-import React from "react";
-import "./App.css";
-import Footer from "./components/Footer/Footer";
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import Footer from './components/Footer/Footer';
+
+import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <Footer />
-    </div>
+    <Router>
+      <div className="App">
+        <header>header</header>
+
+        <main>
+        <Switch>
+          <Route exact path="/">
+            <h2>Grid Cards</h2>
+          </Route>
+          <Route path="/country/:id">
+            <h2>Country</h2>
+          </Route>
+          <Route path="/404">
+            <h2>404</h2>
+          </Route>
+          <Redirect to="404" />
+        </Switch>
+        </main>
+
+        <Footer />
+      </div>
+    </Router>
   );
 }
 
