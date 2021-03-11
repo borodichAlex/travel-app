@@ -3,8 +3,6 @@ import { Card as MuiCard, CardActionArea , CardContent, CardMedia } from '@mater
 import Typography from '@material-ui/core/Typography';
 import { IDataCard } from './types';
 
-const PATH_IMG = './static/images/country-cards/';
-
 type ICardProps = {
   data: IDataCard;
 }
@@ -17,9 +15,9 @@ const Card = (props: ICardProps) => {
       <CardActionArea>
         <CardMedia
           component="img"
-          alt={Card + data.title}
+          alt={'Card ' + data.title}
           height="180"
-          image={PATH_IMG + data.imgUrl}
+          image={data.imgUrl}
           title={data.title}
         />
         <CardContent>
