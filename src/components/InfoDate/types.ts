@@ -1,4 +1,10 @@
-export interface IInfoDateProps {
+import { ILangs } from '../../interfaces';
+
+interface IInfoDateProps {
   timezone: string,
-  locale: string,
+  lang: ILangs,
+}
+
+export type {
+  IInfoDateProps,
 }
