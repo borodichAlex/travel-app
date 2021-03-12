@@ -1,4 +1,4 @@
-import React from 'react';
+
 import s from './Header.module.scss'
 import Logo from '../../assets/Logo.png';
 
@@ -7,12 +7,8 @@ import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import DirectionsIcon from '@material-ui/icons/Directions';
-
-import cn from 'classnames'
-import Localisation from '../Localisation/Localisation';
+import Localization from '../Localization/Localization';
 import { Route } from 'react-router';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -41,7 +37,7 @@ export default function CustomizedInputBase() {
   const classes = useStyles();
 
   return (
-    <Paper component="form" className={cn(classes.root, s.root)}>
+    <Paper component="form" className={`${classes.root} ${s.root}`}>
       <IconButton className={classes.iconButton} aria-label="menu">
         <img src={Logo} width='20' alt=""/>
       </IconButton>
@@ -57,8 +53,8 @@ export default function CustomizedInputBase() {
       </Route>
       
       <Divider className={classes.divider} orientation="vertical" />
-      <IconButton color="primary" className={cn(classes.iconButton, s.language)} aria-label="languages">
-        <Localisation />
+      <IconButton color="primary" className={`${classes.iconButton} ${s.language}`} aria-label="languages">
+        <Localization />
       </IconButton>
     </Paper>
   );
