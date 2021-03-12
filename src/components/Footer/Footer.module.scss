@@ -1,0 +1,41 @@
+.footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  align-items: flex-end;
+  display: flex;
+  justify-content: space-between;
+}
+.github ul li a {
+  text-decoration: none;
+  cursor: pointer;
+  color: black;
+  font-size: 0.8em;
+}
+.github ul {
+  margin-bottom: 0;
+}
+
+.github ul li {
+  list-style-type: none;
+}
+
+.year {
+  font-size: 1.2em;
+}
+
+.logo {
+  width: 20%;
+  cursor: pointer;
+}
+
+@media (min-width: 500px) {
+  .logo {
+    width: 15%;
+  }
+}
+@media (min-width: 1376px) {
+  .logo {
+    width: 5%;
+  }
+}

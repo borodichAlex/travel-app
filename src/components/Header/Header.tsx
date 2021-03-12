@@ -13,6 +13,7 @@ import DirectionsIcon from '@material-ui/icons/Directions';
 
 import cn from 'classnames'
 import Localisation from '../Localisation/Localisation';
+import { Route } from 'react-router';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -44,16 +45,19 @@ export default function CustomizedInputBase() {
       <IconButton className={classes.iconButton} aria-label="menu">
         <img src={Logo} width='20' alt=""/>
       </IconButton>
-      <InputBase
-        className={classes.input}
-        placeholder="Search country"
-        inputProps={{ 'aria-label': 'search country' }}
-      />
-      <IconButton type="submit" className={classes.iconButton} aria-label="search">
-        <SearchIcon />
-      </IconButton>
+      <Route exact path='/'>
+        <InputBase
+          className={classes.input}
+          placeholder="Search country"
+          inputProps={{ 'aria-label': 'search country' }}
+        />
+        <IconButton type="submit" className={classes.iconButton} aria-label="search">
+          <SearchIcon />
+        </IconButton>
+      </Route>
+      
       <Divider className={classes.divider} orientation="vertical" />
-      <IconButton color="primary" className={classes.iconButton} aria-label="languages">
+      <IconButton color="primary" className={cn(classes.iconButton, s.language)} aria-label="languages">
         <Localisation />
       </IconButton>
     </Paper>
