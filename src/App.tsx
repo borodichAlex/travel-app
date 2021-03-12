@@ -1,9 +1,29 @@
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Footer from './components/Footer/Footer';
+import { ICountry } from './interfaces';
+import { getDataCountries } from './services/getDataCountries';
 
 import './App.css';
 
 function App() {
+  const [dataCountries, setDataCountries] = useState<ICountry[] | []>([]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    getDataCountries()
+      .then((data: ICountry[]) => {
+
+        if (mounted) {
+          setDataCountries(data);
+        }
+
+      })
+
+    return () => {mounted = false};
+  }, []);
+
   return (
     <Router>
       <div className="App">
