@@ -1,10 +1,7 @@
 [
   {
       "id": 1,
-      "imageUrl": {
-          "large": "url",
-          "small": "url"
-      },
+      "imageUrl": "photo-1476977251893-330046eb5ec8",
       "location": {
           "coordinates": {
               "lat": 45.424722,
@@ -43,10 +40,7 @@
   },
   {
       "id": 2,
-      "imageUrl": {
-          "large": "url",
-          "small": "url"
-      },
+      "imageUrl": "photo-1514813621023-7a1e3fca8c1b",
       "location": {
           "coordinates": {
               "lat": 55.755833,
@@ -85,10 +79,7 @@
   },
   {
       "id": 3,
-      "imageUrl": {
-          "large": "url",
-          "small": "url"
-      },
+      "imageUrl": "photo-1488747279002-c8523379faaa",
       "location": {
           "coordinates": {
               "lat": 51.507222,
@@ -127,10 +118,7 @@
   },
   {
       "id": 4,
-      "imageUrl": {
-          "large": "url",
-          "small": "url"
-      },
+      "imageUrl": "photo-1506973035872-a4ec16b8e8d9",
       "location": {
           "coordinates": {
               "lat": -35.293056,
@@ -169,10 +157,7 @@
   },
   {
       "id": 5,
-      "imageUrl": {
-          "large": "url",
-          "small": "url"
-      },
+      "imageUrl": "photo-1511219096939-ce77f5f44cc8",
       "location": {
           "coordinates": {
               "lat": 53.35,
@@ -211,10 +196,7 @@
   },
   {
       "id": 6,
-      "imageUrl": {
-          "large": "url",
-          "small": "url"
-      },
+      "imageUrl": "photo-1431274172761-fca41d930114",
       "location": {
           "coordinates": {
               "lat": 48.856613,
@@ -253,10 +235,7 @@
   },
   {
       "id": 7,
-      "imageUrl": {
-          "large": "url",
-          "small": "url"
-      },
+      "imageUrl": "photo-1509840841025-9088ba78a826",
       "location": {
           "coordinates": {
               "lat": 40.416667,
@@ -295,10 +274,7 @@
   },
   {
       "id": 8,
-      "imageUrl": {
-          "large": "url",
-          "small": "url"
-      },
+      "imageUrl": "photo-1533676802871-eca1ae998cd5",
       "location": {
           "coordinates": {
               "lat": 41.883333,

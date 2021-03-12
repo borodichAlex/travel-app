@@ -1,7 +1,8 @@
 import { ICardCountry, ICountry } from '../interfaces';
+import { getResizeImageUnsplash } from './getResizeImageUnsplash';
 
 export const destructDataCardsFromDataCountries = (data: ICountry[], lang: string): ICardCountry[] => {
-    return data.map(({ id, imageUrl: {small}, localizations }) => {
+    return data.map(({ id, imageUrl, localizations }) => {
 
       const indexLocale = localizations.findIndex((obj) => lang === obj.lang);
       const {capital, name} = localizations[indexLocale];
@@ -10,7 +11,7 @@ export const destructDataCardsFromDataCountries = (data: ICountry[], lang: strin
         id,
         name,
         capital,
-        imgUrl: small,
+        imgUrl: getResizeImageUnsplash(imageUrl, 380),
       };
 
     });
