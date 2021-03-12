@@ -7,6 +7,13 @@ interface ICountry {
   ISOCode: string;
 }
 
+interface ICardCountry {
+  id: number;
+  name: string;
+  capital: string;
+  imgUrl: string;
+}
+
 interface ILocalization {
   lang: string;
   name: string;
@@ -40,4 +47,5 @@ interface IImageUrl {
 export type {
   ICountry,
   ICoordinates,
+  ICardCountry,
 }
