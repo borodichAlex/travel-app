@@ -10,6 +10,7 @@ import { ListWithLink } from './components/ListWithLinks/ListWithLinks';
 import { ListCardsCountries } from './components/ListCardsCountries/ListCardsCountries';
 
 import './App.css';
+import Header from './components/Header/Header';
 
 const lang = 'be';
 
@@ -40,7 +41,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <header>header</header>
+        <Header />
 
         <main>
         <Switch>
