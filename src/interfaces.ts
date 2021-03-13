@@ -39,8 +39,11 @@ interface ICoordinates {
   lon: number;
 }
 
+type ILangs = 'en' | 'ru' | 'be';
+
 export type {
   ICountry,
   ICoordinates,
+  ILangs,
   ICardCountry,
 }
