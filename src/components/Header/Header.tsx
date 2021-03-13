@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export default function CustomizedInputBase() {
+const Header = () => {
   const classes = useStyles();
 
   return (
@@ -59,3 +59,5 @@ export default function CustomizedInputBase() {
     </Paper>
   );
 }
+
+export default Header;
