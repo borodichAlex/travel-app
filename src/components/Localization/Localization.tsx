@@ -38,12 +38,12 @@ const StyledMenuItem = withStyles((theme) => ({
   },
 }))(MenuItem);
 
-export default function Localisation() {
+export default function Localization() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
-    
+
   };
 
   const handleClose = () => {
@@ -70,7 +70,7 @@ export default function Localisation() {
         onClose={handleClose}
       >
         <StyledMenuItem onClick={(e) => {console.log(e)}}>
-          French
+          Belarusian
         </StyledMenuItem>
         <StyledMenuItem>
           Russian
