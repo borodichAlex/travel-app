@@ -3,10 +3,7 @@ import s from './Header.module.scss'
 import Logo from '../../assets/Logo.png';
 
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import InputBase from '@material-ui/core/InputBase';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
+import { Paper, InputBase, Divider, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import Localization from '../Localization/Localization';
 import { Route } from 'react-router';
@@ -39,7 +36,7 @@ export default function CustomizedInputBase() {
   return (
     <Paper component="form" className={`${classes.root} ${s.root}`}>
       <IconButton className={classes.iconButton} aria-label="menu">
-        <img src={Logo} width='20' alt=""/>
+        <img src={Logo} width='20' alt="logo"/>
       </IconButton>
       <Route exact path='/'>
         <InputBase
@@ -51,7 +48,7 @@ export default function CustomizedInputBase() {
           <SearchIcon />
         </IconButton>
       </Route>
-      
+
       <Divider className={classes.divider} orientation="vertical" />
       <IconButton color="primary" className={`${classes.iconButton} ${s.language}`} aria-label="languages">
         <Localization />
