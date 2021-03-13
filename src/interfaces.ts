@@ -44,8 +44,11 @@ interface IImageUrl {
   small: string;
 }
 
+type ILangs = 'en' | 'ru' | 'be';
+
 export type {
   ICountry,
   ICoordinates,
+  ILangs,
   ICardCountry,
 }
