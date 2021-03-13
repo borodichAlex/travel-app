@@ -8,9 +8,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <header>
-          <Header />
-        </header>
+        <Header />
 
         <main>
         <Switch>
