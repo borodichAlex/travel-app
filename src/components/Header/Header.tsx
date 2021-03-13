@@ -34,25 +34,27 @@ export default function CustomizedInputBase() {
   const classes = useStyles();
 
   return (
-    <Paper component="form" className={`${classes.root} ${s.root}`}>
-      <IconButton className={classes.iconButton} aria-label="menu">
-        <img src={Logo} width='20' alt="logo"/>
-      </IconButton>
-      <Route exact path='/'>
-        <InputBase
-          className={classes.input}
-          placeholder="Search country"
-          inputProps={{ 'aria-label': 'search country' }}
-        />
-        <IconButton type="submit" className={classes.iconButton} aria-label="search">
-          <SearchIcon />
+    <header>
+      <Paper component="form" className={`${classes.root} ${s.root}`}>
+        <IconButton className={classes.iconButton} aria-label="menu">
+          <img src={Logo} width='20' alt="logo"/>
         </IconButton>
-      </Route>
+        <Route exact path='/'>
+          <InputBase
+            className={classes.input}
+            placeholder="Search country"
+            inputProps={{ 'aria-label': 'search country' }}
+          />
+          <IconButton type="submit" className={classes.iconButton} aria-label="search">
+            <SearchIcon />
+          </IconButton>
+        </Route>
 
-      <Divider className={classes.divider} orientation="vertical" />
-      <IconButton color="primary" className={`${classes.iconButton} ${s.language}`} aria-label="languages">
-        <Localization />
-      </IconButton>
-    </Paper>
+        <Divider className={classes.divider} orientation="vertical" />
+        <IconButton color="primary" className={`${classes.iconButton} ${s.language}`} aria-label="languages">
+          <Localization />
+        </IconButton>
+      </Paper>
+    </header>
   );
 }
