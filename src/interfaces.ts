@@ -1,6 +1,6 @@
 interface ICountry {
   id: number;
-  imageUrl: IImageUrl;
+  imageUrl: string;
   location: ILocation;
   currency: ICurrency;
   localizations: ILocalization[];
@@ -37,11 +37,6 @@ interface ILocation {
 interface ICoordinates {
   lat: number;
   lon: number;
-}
-
-interface IImageUrl {
-  large: string;
-  small: string;
 }
 
 export type {
