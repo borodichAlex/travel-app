@@ -25,7 +25,7 @@ export default function Footer() {
       </div>
       <div className={s.year}>2021</div>
       <div className={s.logo}>
-        <a target="_blank" href="https://rs.school/js/">
+        <a target="_blank" rel="noreferrer" href="https://rs.school/js/">
           <img src={rsLogo} alt="rs_logo" />
         </a> 
       </div>
