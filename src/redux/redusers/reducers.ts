@@ -33,7 +33,7 @@ export const placesReducer = (state: Array<ICountry> | [] = [], action: ICountri
     switch(action.type) {
         case SET_PLACES: {
             return {
-                places: action.payload
+                state: action.payload
             }
         }
 

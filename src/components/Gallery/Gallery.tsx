@@ -4,17 +4,30 @@ import places from './template';             //после подключения
 import Next from '../../assets/Next.png'
 import Previous from '../../assets/Previous.png';
 import Fullscreen from '../../assets/Fullscreen.png'
+import { useSelector } from 'react-redux';
+import { IPlaces, IState } from '../../interfaces';
 
 const Gallery = () => {
     const [placeId, setPlaceId] = useState(0);
     const [btnsDisabled, setBtnsDisabled] = useState(false);
     const [fullscreen, setFullscreen] = useState('');
     const imgRef = useRef<HTMLImageElement>(null);
+    const [localPlaces, setLocalPlaces] = useState<IPlaces[] | []>([]) ;
+
+    const allPlaces = useSelector((state: IState) => state.places?.state)
 
     useEffect(() => {
         document.addEventListener('keyup', handleEscape)
     }, [])
 
+
+    useEffect(() => {
+        if(allPlaces?.length) {
+            let localPlacesI = allPlaces.filter((item) => item.countryId === 3)           //Заменить при сборке всего в кучу
+            setLocalPlaces(localPlacesI);
+            console.log(localPlacesI)
+        }
+    }, [allPlaces])
 
 
     const handleEscape = (e: KeyboardEvent) => {
@@ -25,14 +38,14 @@ const Gallery = () => {
 
     const handleSet = (dir: string | number) => {
         if (dir === 'forward') {
-            if (placeId === places.length - 1) {
+            if (placeId === localPlaces.length - 1) {
                 setPlaceId(0)
             } else {
                 setPlaceId(placeId + 1)
             }
         } else if (dir === 'back') {
             if (placeId === 0) {
-                setPlaceId(places.length - 1)
+                setPlaceId(localPlaces.length - 1)
             } else {
                 setPlaceId(placeId - 1)
             }
@@ -83,12 +96,16 @@ const Gallery = () => {
         }, 50)
     }
 
+    if(!localPlaces.length) {
+        return <div>Loading...</div>
+    }
+
     return (
         <div className={`${s.root} ${s[fullscreen]}`}>
             <div className={s.container}>
                 <img
-                    src={places[placeId].imageUrl}
-                    alt={places[placeId].localizations[0].name}
+                    src={localPlaces[placeId].imageUrl}
+                    alt={localPlaces[placeId].name}
                     id="place_image"
                     ref={imgRef}
                 />
@@ -131,15 +148,15 @@ const Gallery = () => {
                 <article className={s.description}>
                     {/* пока всё на англ */}
                     <h2>
-                        {places[placeId].localizations[0].name}
+                        {localPlaces[placeId].name}
                     </h2>
-                    {places[placeId].localizations[0].description}
+                    {localPlaces[placeId].description}
                 </article>
             </div>
 
             <div className={s.bottom_gallery}>
                 <div style={{display: 'flex'}}>
-                    {places.map((item, index) => {
+                    {localPlaces.map((item: IPlaces, index: number) => {
                         if (index === placeId) {
                             return (
                                 <div 
@@ -147,9 +164,8 @@ const Gallery = () => {
                                      ${s.selected}`} key={`${item.id}btm`}
                                       tabIndex={1}
                                        id='selected'
-                                    //    onClick={() => setPlaceId(index)}
                                     >
-                                    <img src={item.imageUrl} alt={item.localizations[0].name} />
+                                    <img src={item.imageUrl} alt={item.name} />
                                 </div>
                             )
                         } else {
@@ -164,7 +180,7 @@ const Gallery = () => {
                                         }
                                     }}
                                 >
-                                    <img src={item.imageUrl} alt={item.localizations[0].name} />
+                                    <img src={item.imageUrl} alt={item.name} />
                                 </div>
                             )
                         }
