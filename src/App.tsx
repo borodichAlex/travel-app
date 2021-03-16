@@ -1,3 +1,6 @@
+// import { getDataCountries } from "./services/getDataCountries";
+const lang = "be";
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
@@ -29,6 +32,18 @@ function App() {
     setLang(lang);
   }, [state.lang?.state])
 
+
+    getDataCountries().then((data: ICountry[]) => {
+      if (mounted) {
+        setDataCountries(data);
+      }
+    });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   useEffect(() => {
 
     getData(lang, 'countries')            
@@ -46,10 +61,11 @@ function App() {
 
   }, [lang]);
 
+
   useEffect(() => {
     const data = destructDataCardsFromDataCountries(dataCountries, lang);
     setDataCards(data);
-  }, [dataCountries])
+  }, [dataCountries]);
 
   return (
     <Router>
@@ -57,22 +73,21 @@ function App() {
         <Header />
 
         <main>
-        <Switch>
-          <Route exact path="/">
-            <GridCards>
-              {composeMultiple(ListWithLink, ListCardsCountries)(dataCards)}
-            </GridCards>
-          </Route>
-          <Route path="/country/:id">
-            <h2>Country</h2>
-          </Route>
-          <Route path="/404">
-            <h2>404</h2>
-          </Route>
-          <Redirect to="404" />
-        </Switch>
+          <Switch>
+            <Route exact path="/">
+              <GridCards>
+                {composeMultiple(ListWithLink, ListCardsCountries)(dataCards)}
+              </GridCards>
+            </Route>
+            <Route path="/country/:id">
+              <h2>Country</h2>
+            </Route>
+            <Route path="/404">
+              <h2>404</h2>
+            </Route>
+            <Redirect to="404" />
+          </Switch>
         </main>
-
         <Footer />
       </div>
     </Router>
