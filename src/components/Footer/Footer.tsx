@@ -11,7 +11,7 @@ export default function Footer() {
             <a href="https://github.com/borodichAlex">borodichAlex</a>
           </li>
           <li>
-            <a href="https://github.com/PavelClone">PavelClone</a>
+            <a href="https://github.com/PavelMGs">PavelMGs</a>
           </li>
           <li>
             <a href="https://github.com/nickomo">nickomo</a>
@@ -25,9 +25,9 @@ export default function Footer() {
       </div>
       <div className={s.year}>2021</div>
       <div className={s.logo}>
-        <a href="https://rs.school/js/">
+        <a target="_blank" rel="noreferrer" href="https://rs.school/js/">
           <img src={rsLogo} alt="rs_logo" />
-        </a>
+        </a> 
       </div>
     </footer>
   );

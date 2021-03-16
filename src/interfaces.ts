@@ -3,8 +3,10 @@ interface ICountry {
   imageUrl: string;
   location: ILocation;
   currency: ICurrency;
-  localizations: ILocalization[];
+  // localizations: ILocalization[];
   ISOCode: string;
+  capital: string;
+  name: string;
 }
 
 interface ICardCountry {
@@ -21,7 +23,7 @@ interface ILocalization {
   description: string;
   currency: {
     fullName: string;
-  }
+  };
 }
 
 interface ICurrency {
@@ -39,11 +41,50 @@ interface ICoordinates {
   lon: number;
 }
 
-type ILangs = 'en' | 'ru' | 'be';
+interface IImageUrl {
+  large: string;
+  small: string;
+}
+
+type ILangs = "en" | "ru" | "be";
+
+interface ICountriesAction {
+  type: string;
+  payload: Array<ICountry>;
+}
+
+interface ILangsAction {
+  type: string;
+  payload: ILangs;
+}
+
+interface IPlaces {
+  id: number
+  name: string
+  description: string
+  countryId: number
+  imageUrl: string
+}
+
+interface IState {
+  countries?: {
+    state: Array<ICountry>
+  }
+  lang?: {
+    state: ILangs
+  }
+  places?: {
+    state: Array<IPlaces>
+  }
+}
 
 export type {
   ICountry,
   ICoordinates,
   ILangs,
   ICardCountry,
-}
+  ICountriesAction,
+  ILangsAction,
+  IPlaces,
+  IState,
+};
