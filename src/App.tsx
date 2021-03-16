@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Footer from './components/Footer/Footer';
-import { ICardCountry, ICountry, IState, IPlaces } from './interfaces';
+import { ICardCountry, ICountry, IPlaces, ILangs } from './interfaces';
 import { getData } from './services/getData';
 import { destructDataCardsFromDataCountries } from './services/destructDataCardsFromDataCountries';
 import GridCards from './components/GridCards/GridCards';
@@ -12,7 +12,7 @@ import { ListCardsCountries } from './components/ListCardsCountries/ListCardsCou
 
 import './App.css';
 import Header from './components/Header/Header';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setCountries, setPlaces } from './redux/actions/actions';
 import Page404 from './pages/Page404/Page404';
 
@@ -22,13 +22,16 @@ function App() {
   const [dataCountries, setDataCountries] = useState<ICountry[] | []>([]);
   const [dataCards, setDataCards] = useState<ICardCountry[] | []>([]);
   const [lang, setLang] = useState('en')
-  const state: IState = useSelector(state => state);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const lang = state.lang?.state ? state.lang.state: 'en';
-    setLang(lang);
-  }, [state.lang?.state])
+    
+    if(!localStorage.getItem('lang')) {
+      localStorage.setItem('lang', 'en')
+    }
+    setLang(localStorage.getItem('lang') || 'en');
+
+  }, [])
 
   useEffect(() => {
 
@@ -52,10 +55,15 @@ function App() {
     setDataCards(data);
   }, [dataCountries])
 
+  const handleChangeLang = (lang: ILangs) => {
+    localStorage.setItem('lang', lang);
+    setLang(lang);
+  }
+
   return (
     <Router>
       <div className="App">
-        <Header />
+        <Header handleChangeLang={handleChangeLang} />
 
         <main>
         <Switch>
