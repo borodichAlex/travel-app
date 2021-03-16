@@ -14,10 +14,9 @@ import Gallery from "../../components/Gallery/Gallery";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: "90%",
+    maxWidth: "100%",
     position: "relative",
-    margin: "0 auto",
-    // height: "70%",
+    marginBottom: "4%",
   },
 });
 
@@ -25,21 +24,21 @@ const CountryPage = (props: any) => {
   const classes = useStyles();
 
   return (
-    <>
+    <div className={s.container}>
       <Card className={classes.root}>
         <CardMedia
-          className={s.bg}
           component="img"
           alt="Contemplative Reptile"
-          // height="45%"
           image="https://reloadvisor.org/wp-content/uploads/2019/10/Canada-ReloAdvisor.org_.jpg"
           title="Contemplative Reptile"
         />
         <Box className={s.capital}>
           <Typography gutterBottom variant="h3" component="h2">
+            {/* {props.country} */}
             Canada
           </Typography>
           <Typography variant="h4" color="textSecondary" component="span">
+            {/* {props.capital} */}
             Ottava
           </Typography>
         </Box>
@@ -60,7 +59,7 @@ const CountryPage = (props: any) => {
       </Card>
       {/* <InfoDate lang={"en"} timezone={" "} /> */}
       <Gallery />
-    </>
+    </div>
   );
 };
 
