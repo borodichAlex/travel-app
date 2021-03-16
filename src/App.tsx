@@ -15,8 +15,6 @@ import Header from './components/Header/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCountries, setPlaces } from './redux/actions/actions';
 
-// const lang = 'be';
-
 
 
 function App() {
@@ -32,16 +30,11 @@ function App() {
   }, [state.lang?.state])
 
   useEffect(() => {
-    let mounted = true;
 
-    getData(lang, 'countries')            //переделал функцию на универсальную для разных запросов
+    getData(lang, 'countries')            
       .then((data: ICountry[]) => {
-
-        if (mounted) {
           setDataCountries(data);
           dispatch(setCountries(data))
-        }
-
       })
 
       getData(lang, 'places')            
@@ -51,7 +44,6 @@ function App() {
 
       })
 
-    return () => {mounted = false};
   }, [lang]);
 
   useEffect(() => {
