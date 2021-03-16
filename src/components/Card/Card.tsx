@@ -17,7 +17,7 @@ const Card = (props: ICardProps) => {
           component="img"
           alt={'Card ' + data.title}
           height="180"
-          image={data.imgUrl}
+          image={`https://images.unsplash.com/${data.imgUrl}?w=640`}
           title={data.title}
         />
         <CardContent>

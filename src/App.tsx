@@ -1,30 +1,37 @@
-import { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
-import Footer from "./components/Footer/Footer";
-import { ICardCountry, ICountry } from "./interfaces";
-import { getDataCountries } from "./services/getDataCountries";
-import { destructDataCardsFromDataCountries } from "./services/destructDataCardsFromDataCountries";
-import GridCards from "./components/GridCards/GridCards";
-import { composeMultiple } from "./helpers/composeMultiple";
-import { ListWithLink } from "./components/ListWithLinks/ListWithLinks";
-import { ListCardsCountries } from "./components/ListCardsCountries/ListCardsCountries";
-
-import "./App.css";
-import Header from "./components/Header/Header";
-
+// import { getDataCountries } from "./services/getDataCountries";
 const lang = "be";
+
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import Footer from './components/Footer/Footer';
+import { ICardCountry, ICountry, IState, IPlaces } from './interfaces';
+import { getData } from './services/getData';
+import { destructDataCardsFromDataCountries } from './services/destructDataCardsFromDataCountries';
+import GridCards from './components/GridCards/GridCards';
+import { composeMultiple } from './helpers/composeMultiple';
+import { ListWithLink } from './components/ListWithLinks/ListWithLinks';
+import { ListCardsCountries } from './components/ListCardsCountries/ListCardsCountries';
+
+import './App.css';
+import Header from './components/Header/Header';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCountries, setPlaces } from './redux/actions/actions';
+
+
 
 function App() {
   const [dataCountries, setDataCountries] = useState<ICountry[] | []>([]);
   const [dataCards, setDataCards] = useState<ICardCountry[] | []>([]);
+  const [lang, setLang] = useState('en')
+  const state: IState = useSelector(state => state);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    let mounted = true;
+    const lang = state.lang?.state ? state.lang.state: 'en';
+    setLang(lang);
+  }, [state.lang?.state])
+
 
     getDataCountries().then((data: ICountry[]) => {
       if (mounted) {
@@ -36,6 +43,24 @@ function App() {
       mounted = false;
     };
   }, []);
+
+  useEffect(() => {
+
+    getData(lang, 'countries')            
+      .then((data: ICountry[]) => {
+          setDataCountries(data);
+          dispatch(setCountries(data))
+      })
+
+      getData(lang, 'places')            
+      .then((data: Array<IPlaces>) => {       
+
+          dispatch(setPlaces(data))
+
+      })
+
+  }, [lang]);
+
 
   useEffect(() => {
     const data = destructDataCardsFromDataCountries(dataCountries, lang);

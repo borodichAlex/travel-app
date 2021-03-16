@@ -1,10 +1,10 @@
 .footer {
   width: 100%;
-  position: fixed;
-  bottom: 0;
-  align-items: flex-end;
+  margin-top: 50px;
+  align-items: center;
   display: flex;
   justify-content: space-between;
+  border-top: rgb(44, 43, 43) 1px solid;
 }
 .github ul li a {
   text-decoration: none;
@@ -34,7 +34,17 @@
     width: 15%;
   }
 }
+@media (min-width: 900px) {
+  .logo {
+    width: 10%;
+  }
+}
 @media (min-width: 1376px) {
+  .footer {
+    position: fixed;
+    bottom: 0;
+    margin-top: 0;
+  }
   .logo {
     width: 5%;
   }
