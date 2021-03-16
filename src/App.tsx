@@ -14,9 +14,6 @@ import './App.css';
 import Header from './components/Header/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCountries, setPlaces } from './redux/actions/actions';
-import Gallery from './components/Gallery/Gallery';
-
-// const lang = 'be';
 
 
 
@@ -62,7 +59,6 @@ function App() {
         <main>
         <Switch>
           <Route exact path="/">
-            <Gallery />
             <GridCards>
               {composeMultiple(ListWithLink, ListCardsCountries)(dataCards)}
             </GridCards>
