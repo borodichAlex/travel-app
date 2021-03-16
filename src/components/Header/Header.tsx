@@ -51,9 +51,9 @@ const Header = () => {
         </Route>
 
         <Divider className={classes.divider} orientation="vertical" />
-        <IconButton color="primary" className={`${classes.iconButton} ${s.language}`} aria-label="languages">
+        <div className={s.language}>
           <Localization />
-        </IconButton>
+        </div>
       </Paper>
     </header>
   );

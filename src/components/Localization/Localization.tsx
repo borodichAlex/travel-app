@@ -6,6 +6,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Languages from '../../assets/Languages.png'
 
 import s from './Localization.module.scss';
+import { useDispatch } from 'react-redux';
+import { setLang } from '../../redux/actions/actions';
 
 const StyledMenu = withStyles({
   paper: {
@@ -40,6 +42,7 @@ const StyledMenuItem = withStyles((theme) => ({
 
 export default function Localization() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const dispatch = useDispatch();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -69,13 +72,13 @@ export default function Localization() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledMenuItem onClick={(e) => {console.log(e)}}>
+        <StyledMenuItem onClick={() => dispatch(setLang('be'))}>
           Belarusian
         </StyledMenuItem>
-        <StyledMenuItem>
+        <StyledMenuItem onClick={() => dispatch(setLang('ru'))}>
           Russian
         </StyledMenuItem>
-        <StyledMenuItem>
+        <StyledMenuItem onClick={() => dispatch(setLang('en'))}>
           English
         </StyledMenuItem>
       </StyledMenu>
