@@ -14,6 +14,7 @@ import './App.css';
 import Header from './components/Header/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCountries, setPlaces } from './redux/actions/actions';
+import Page404 from './pages/Page404/Page404';
 
 
 
@@ -67,9 +68,9 @@ function App() {
             <h2>Country</h2>
           </Route>
           <Route path="/404">
-            <h2>404</h2>
+            <Page404 />
           </Route>
-          <Redirect to="404" />
+          <Redirect to="/404" />
         </Switch>
         </main>
 
