@@ -24,13 +24,13 @@ interface IMapProps {
   coordinates: ICoordinates;
   lang: ILangs;
   isoCountry: string;
-  sizeMap: { w: string; h: string };
+  sizeMap?: { w: string; h: string };
 }
 
 const useStyles = makeStyles({
   map: (props: IMapProps) => ({
-    height: props.sizeMap.h || "250px",
-    width: props.sizeMap.w || "250px",
+    height: props.sizeMap ? props.sizeMap.h : "250px",
+    width: props.sizeMap ? props.sizeMap.w : "250px",
 
     "& > ymaps > ymaps": {
       borderRadius: "25px",

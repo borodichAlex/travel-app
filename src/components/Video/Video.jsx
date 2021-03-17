@@ -31,8 +31,7 @@ export const VideoPlayer = (props) => {
   const playerWidth = width > 700 ? "700px" : width;
   return (
     <ReactPlayer
-      // url={props.videoUrl}
-      url="https://youtu.be/OvLWWvjoi8s"
+      url={props.videoUrl}
       width={playerWidth}
       playsinline={true}
       controls={true}

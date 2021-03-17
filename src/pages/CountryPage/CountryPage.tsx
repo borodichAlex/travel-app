@@ -1,11 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Box } from "@material-ui/core";
 import s from "./CountryPage.module.scss";
@@ -14,6 +11,10 @@ import Gallery from "../../components/Gallery/Gallery";
 import InfoWeather from "../../components/InfoWeather/InfoWeather";
 import Map from "../../components/Map/Map";
 import { VideoPlayer } from "../../components/Video/Video";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/reducers";
+import { useHistory, useParams } from "react-router";
+import { ICountry } from "../../interfaces";
 
 const useStyles = makeStyles({
   root: {
@@ -25,25 +26,41 @@ const useStyles = makeStyles({
 
 const CountryPage = (props: any) => {
   const classes = useStyles();
-  const lang = localStorage.getItem("lang") || "en";
+  const lang: any = localStorage.getItem("lang") || "en";
+
+  const dataCountries = useSelector((state: RootState) => state.countries);
+  const [countryData, setCountryData] = useState<ICountry>();
+
+  let { id } = useParams<any>();
+  const history = useHistory();
+
+  useEffect(() => {
+    const data = dataCountries.filter((item) => item.id == id);
+    if (id > 8) {
+      history.push("/");
+    }
+    setCountryData(data[0]);
+  }, []);
+
+  if (!countryData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
       <Card className={classes.root}>
         <CardMedia
           component="img"
-          alt={props.countryName}
-          image={props.countryImg}
-          title={props.countryName}
+          alt={countryData.name}
+          image={`https://images.unsplash.com/${countryData.imageUrl}?w=1920`}
+          title={countryData.name}
         />
         <Box className={s.capital}>
           <Typography gutterBottom variant="h3" component="h2">
-            {props.countryName}
-            Canada
+            {countryData.name}
           </Typography>
           <Typography variant="h4" color="textSecondary" component="span">
-            {props.countryCapital}
-            Ottawa
+            {countryData.capital}
           </Typography>
         </Box>
         <CardContent>
@@ -53,18 +70,18 @@ const CountryPage = (props: any) => {
             component="p"
             className={s.info}
           >
-            {props.countryDescription}
+            {countryData.description}
           </Typography>
         </CardContent>
       </Card>
-      <InfoWeather city={props.countryCapital} lang={lang} />
-      <InfoDate lang={lang} timezone={props.timezone} />
-      <Map
+      <InfoWeather city={`${countryData.capital}`} lang={lang} />
+      <InfoDate lang={lang} timezone={countryData.location.timezone} />
+      {/* <Map
         lang={lang}
-        isoCountry={props.isoCountry}
-        coordinates={props.coordinates}
-      />
-      <VideoPlayer videoUrl={props.countryVideo} />
+        isoCountry={countryData.isoCountry}
+        coordinates={countryData.coordinates}
+      /> */}
+      <VideoPlayer videoUrl={countryData.videoUrl} />
       <Gallery />
     </>
   );
