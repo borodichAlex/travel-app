@@ -1,30 +1,29 @@
 import React, {useRef} from 'react';
 import {Grid, TextField, Button, Container} from '@material-ui/core';
 import { Link } from 'react-router-dom';
-
+import {useHistory} from 'react-router-dom'
 
 //https://rs-travel-app1.herokuapp.com/
-
-// headers: {
-//     'access-control-expose-headers': 'Set-Cookie'
-// },
-
-function handleSubmit(e: any) {
-    e.preventDefault();
-
-    console.log(e.currentTarget);
-    const result: any = fetch('http://localhost:3000/users/login', {
-        method: 'POST',
-        credentials: 'include',
-        body: new FormData(e.currentTarget)
-    });
-
-    result.then(async (data: any) => {
-        console.log(await data.json());
-    });
-}
+//http://localhost:3000/
 
 const Login = (props: any) => {
+    let history = useHistory();
+
+    async function handleSubmit(e: any) {
+        e.preventDefault();
+
+        console.log(e.currentTarget);
+        const result: any = await fetch('https://rs-travel-app1.herokuapp.com/users/login', {
+            method: 'POST',
+            credentials: 'include',
+            body: new FormData(e.currentTarget)
+        });
+
+        if(result.ok) {
+            history.push('/');
+        }
+    }
+
     return (
         <Container maxWidth="xs" style={{marginTop: "20px"}}>
             <form noValidate onSubmit={(e) => handleSubmit(e)}>

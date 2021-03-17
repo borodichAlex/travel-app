@@ -6,7 +6,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { Paper, InputBase, IconButton, Button, ButtonGroup, Link } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import Localization from '../Localization/Localization';
-import { Route } from 'react-router';
+import { Route, useHistory} from 'react-router';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,8 +29,21 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+
+
+
 const Header: React.FC = () => {
   const classes = useStyles();
+  const authorized = Boolean(document.cookie.split('=')[1]);
+  const history = useHistory();
+
+  async function handlerClick() {
+    fetch('https://rs-travel-app1.herokuapp.com/users/unlogin', {
+        credentials: 'include'
+    })
+
+    history.push('/login');
+}
 
   return (
     <header>
@@ -53,8 +66,10 @@ const Header: React.FC = () => {
         </Route>
 
         <ButtonGroup color="primary" aria-label="outlined primary button group" style={{marginLeft: '10px', marginRight: '10px'}}>
-          <Button>Log in</Button>
-          <Button>Sign up</Button>
+            {authorized
+            ? <Button onClick={handlerClick}>Log out</Button>
+            : <Button><RouterLink to="/login">Log in</RouterLink></Button>
+        }
         </ButtonGroup>
 
         <div className={s.language}>
