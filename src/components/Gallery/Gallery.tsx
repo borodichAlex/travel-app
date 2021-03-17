@@ -1,20 +1,25 @@
 import React, { useEffect, useRef, useState } from "react";
 import s from "./Gallery.module.scss";
-import places from "./template"; //после подключения к апи, этот файл уберём
 import Next from "../../assets/Next.png";
 import Previous from "../../assets/Previous.png";
 import Fullscreen from "../../assets/Fullscreen.png";
 import { useSelector } from "react-redux";
 import { IPlaces, IState } from "../../interfaces";
+import { useHistory, useParams } from "react-router";
 
-const Gallery = () => {
+interface IGallery {
+  id: number;
+}
+
+const Gallery: React.FC<IGallery> = ({ id }) => {
   const [placeId, setPlaceId] = useState(0);
   const [btnsDisabled, setBtnsDisabled] = useState(false);
   const [fullscreen, setFullscreen] = useState("");
   const imgRef = useRef<HTMLImageElement>(null);
   const [localPlaces, setLocalPlaces] = useState<IPlaces[] | []>([]);
 
-  const allPlaces = useSelector((state: IState) => state.places?.state);
+  const allPlaces = useSelector((state: IState) => state.places);
+  const history = useHistory();
 
   useEffect(() => {
     document.addEventListener("keyup", handleEscape);
@@ -22,9 +27,8 @@ const Gallery = () => {
 
   useEffect(() => {
     if (allPlaces?.length) {
-      let localPlacesI = allPlaces.filter((item) => item.countryId === 3); //Заменить при сборке всего в кучу
+      let localPlacesI = allPlaces.filter((item) => item.countryId == id); //Заменить при сборке всего в кучу
       setLocalPlaces(localPlacesI);
-      console.log(localPlacesI);
     }
   }, [allPlaces]);
 

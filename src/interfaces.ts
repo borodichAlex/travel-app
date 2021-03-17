@@ -60,6 +60,11 @@ interface ILangsAction {
   payload: ILangs;
 }
 
+interface IPlacesAction {
+  type: string;
+  payload: IPlaces;
+}
+
 interface IPlaces {
   id: number
   name: string
@@ -69,15 +74,9 @@ interface IPlaces {
 }
 
 interface IState {
-  countries?: {
-    state: Array<ICountry>
-  }
-  lang?: {
-    state: ILangs
-  }
-  places?: {
-    state: Array<IPlaces>
-  }
+  countries?:  Array<ICountry>
+  lang:  ILangs
+  places: Array<IPlaces>
 }
 
 export type {
@@ -89,4 +88,5 @@ export type {
   ILangsAction,
   IPlaces,
   IState,
+  IPlacesAction,
 };
