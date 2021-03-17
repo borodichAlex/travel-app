@@ -1,11 +1,11 @@
 // import { getDataCountries } from "./services/getDataCountries";
-const lang = "be";
+// const lang = "be";
 
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Footer from './components/Footer/Footer';
-import { ICardCountry, ICountry, IPlaces, ILangs } from './interfaces';
+import { ICardCountry, ICountry, IPlaces, ILangs, IState } from './interfaces';
 import { getData } from './services/getData';
 import { destructDataCardsFromDataCountries } from './services/destructDataCardsFromDataCountries';
 import GridCards from './components/GridCards/GridCards';
@@ -15,7 +15,7 @@ import { ListCardsCountries } from './components/ListCardsCountries/ListCardsCou
 
 import './App.css';
 import Header from './components/Header/Header';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCountries, setPlaces } from './redux/actions/actions';
 import Page404 from './pages/Page404/Page404';
 
@@ -24,8 +24,18 @@ import Page404 from './pages/Page404/Page404';
 function App() {
   const [dataCountries, setDataCountries] = useState<ICountry[] | []>([]);
   const [dataCards, setDataCards] = useState<ICardCountry[] | []>([]);
-  const [lang, setLang] = useState('en')
+  const [lang, setLang] = useState('en');
+  const state: IState = useSelector(state => state)
   const dispatch = useDispatch();
+
+  const handleSearch = (value: string) => {
+    
+    const searchedCountries = state.countries?.state.filter((item) => {
+      const reg = new RegExp(value, 'i');
+      return item.name.match(reg)
+    }) || [];
+    setDataCountries(searchedCountries)
+  }
 
   useEffect(() => {
     
@@ -36,17 +46,6 @@ function App() {
 
   }, [])
 
-
-    getDataCountries().then((data: ICountry[]) => {
-      if (mounted) {
-        setDataCountries(data);
-      }
-    });
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
 
   useEffect(() => {
 
@@ -79,7 +78,10 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Header handleChangeLang={handleChangeLang} />
+        <Header 
+          handleChangeLang={handleChangeLang}
+          handleSearch={handleSearch} 
+        />
 
         <main>
         <Switch>
