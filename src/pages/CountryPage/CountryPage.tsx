@@ -16,6 +16,7 @@ import { RootState } from "../../redux/reducers";
 import { useHistory, useParams } from "react-router";
 import { ICountry } from "../../interfaces";
 import { LangContext } from "../../contexts/lang-context";
+import CurrencyConverter from "../../components/CurrencyConverter/CurrencyConverter";
 
 const useStyles = makeStyles({
   root: {
@@ -41,6 +42,7 @@ const CountryPage = () => {
       history.push("/");
     }
     setCountryData(data[0]);
+    console.log(countryData);
   });
 
   if (!countryData) {
@@ -76,6 +78,7 @@ const CountryPage = () => {
         </CardContent>
       </Card>
       <InfoWeather city={`${countryData.capital}`} lang={lang} />
+      {/* <CurrencyConverter currency={} /> */}
       <InfoDate lang={lang} timezone={countryData.location.timezone} />
       <Map
         lang={lang}
