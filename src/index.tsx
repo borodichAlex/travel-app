@@ -8,8 +8,8 @@ import { Provider } from 'react-redux';
 import LangState from './contexts/lang-context';
 
 const store = createStore(
-  rootReducer, window && (window as any));
-
+  rootReducer,
+  (process.env.NODE_ENV === 'development') && window && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__());
 
 ReactDOM.render(
   <Provider store={store}>
