@@ -86,7 +86,7 @@ const CountryPage = () => {
         coordinates={countryData.location.coordinates}
       />
       <VideoPlayer videoUrl={countryData.videoUrl} />
-      <Gallery />
+      <Gallery id={countryData.id} />
     </>
   );
 };
