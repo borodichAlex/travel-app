@@ -17,6 +17,7 @@ import './App.css';
 import Header from './components/Header/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCountries, setPlaces } from './redux/actions/actions';
+import Page404 from './pages/Page404/Page404';
 
 
 
@@ -73,20 +74,21 @@ function App() {
         <Header />
 
         <main>
-          <Switch>
-            <Route exact path="/">
-              <GridCards>
-                {composeMultiple(ListWithLink, ListCardsCountries)(dataCards)}
-              </GridCards>
-            </Route>
-            <Route path="/country/:id">
-              <h2>Country</h2>
-            </Route>
-            <Route path="/404">
-              <h2>404</h2>
-            </Route>
-            <Redirect to="404" />
-          </Switch>
+        <Switch>
+          <Route exact path="/">
+            <GridCards>
+              {composeMultiple(ListWithLink, ListCardsCountries)(dataCards)}
+            </GridCards>
+          </Route>
+          <Route path="/country/:id">
+            <h2>Country</h2>
+          </Route>
+          <Route path="/404">
+            <Page404 />
+          </Route>
+          <Redirect to="/404" />
+        </Switch>
+
         </main>
         <Footer />
       </div>
