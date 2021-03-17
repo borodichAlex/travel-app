@@ -1,4 +1,3 @@
-
 import s from './Header.module.scss'
 import Logo from '../../assets/Logo.png';
 
@@ -7,11 +6,6 @@ import { Paper, InputBase, Divider, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import Localization from '../Localization/Localization';
 import { Route } from 'react-router';
-import { ILangs } from '../../interfaces';
-
-interface IHeader {
-  handleChangeLang: (lang: ILangs) => void
-}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -35,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Header: React.FC<IHeader> = ({handleChangeLang}) => {
+const Header: React.FC = () => {
   const classes = useStyles();
 
   return (
@@ -57,7 +51,7 @@ const Header: React.FC<IHeader> = ({handleChangeLang}) => {
 
         <Divider className={classes.divider} orientation="vertical" />
         <div className={s.language}>
-          <Localization handleChangeLang={handleChangeLang}/>
+          <Localization />
         </div>
       </Paper>
     </header>

@@ -4,9 +4,7 @@ import { SET_COUNTRIES, SET_LANG, SET_PLACES } from "../actions/actionTypes";
 export const countriesReducer = (state: Array<ICountry> | [] = [], action: ICountriesAction) => {
     switch(action.type) {
         case SET_COUNTRIES: {
-            return {
-                state: action.payload
-            }
+            return action.payload;
         }
 
         default: {
@@ -18,9 +16,7 @@ export const countriesReducer = (state: Array<ICountry> | [] = [], action: ICoun
 export const langReducer = (state: ILangs = 'en', action: ILangsAction) => {
     switch(action.type) {
         case SET_LANG: {
-            return {
-                state: action.payload
-            }
+            return action.payload
         }
 
         default: {
@@ -32,9 +28,7 @@ export const langReducer = (state: ILangs = 'en', action: ILangsAction) => {
 export const placesReducer = (state: Array<ICountry> | [] = [], action: ICountriesAction) => {
     switch(action.type) {
         case SET_PLACES: {
-            return {
-                state: action.payload
-            }
+            return action.payload
         }
 
         default: {
