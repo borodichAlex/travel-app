@@ -11,6 +11,9 @@ import { Box } from "@material-ui/core";
 import s from "./CountryPage.module.scss";
 import InfoDate from "../../components/InfoDate/InfoDate";
 import Gallery from "../../components/Gallery/Gallery";
+import InfoWeather from "../../components/InfoWeather/InfoWeather";
+import Map from "../../components/Map/Map";
+import { VideoPlayer } from "../../components/Video/Video";
 
 const useStyles = makeStyles({
   root: {
@@ -22,23 +25,24 @@ const useStyles = makeStyles({
 
 const CountryPage = (props: any) => {
   const classes = useStyles();
+  const lang = localStorage.getItem("lang") || "en";
 
   return (
     <>
       <Card className={classes.root}>
         <CardMedia
           component="img"
-          alt="Contemplative Reptile"
-          image="https://reloadvisor.org/wp-content/uploads/2019/10/Canada-ReloAdvisor.org_.jpg"
-          title="Contemplative Reptile"
+          alt={props.countryName}
+          image={props.countryImg}
+          title={props.countryName}
         />
         <Box className={s.capital}>
           <Typography gutterBottom variant="h3" component="h2">
-            {/* {props.country} */}
+            {props.countryName}
             Canada
           </Typography>
           <Typography variant="h4" color="textSecondary" component="span">
-            {/* {props.capital} */}
+            {props.countryCapital}
             Ottawa
           </Typography>
         </Box>
@@ -49,15 +53,18 @@ const CountryPage = (props: any) => {
             component="p"
             className={s.info}
           >
-            {/* {props.description} */}
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ipsam
-            magni, sequi explicabo nam, sit repellat harum eos consequuntur,
-            quasi aliquid natus delectus amet et vel velit sed voluptatum. Quo,
-            veritatis.
+            {props.countryDescription}
           </Typography>
         </CardContent>
       </Card>
-      {/* <InfoDate lang={"en"} timezone={" "} /> */}
+      <InfoWeather city={props.countryCapital} lang={lang} />
+      <InfoDate lang={lang} timezone={props.timezone} />
+      <Map
+        lang={lang}
+        isoCountry={props.isoCountry}
+        coordinates={props.coordinates}
+      />
+      <VideoPlayer videoUrl={props.countryVideo} />
       <Gallery />
     </>
   );

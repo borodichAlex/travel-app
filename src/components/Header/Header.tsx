@@ -7,6 +7,11 @@ import { Paper, InputBase, Divider, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import Localization from '../Localization/Localization';
 import { Route } from 'react-router';
+import { ILangs } from '../../interfaces';
+
+interface IHeader {
+  handleChangeLang: (lang: ILangs) => void
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,7 +35,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Header = () => {
+const Header: React.FC<IHeader> = ({handleChangeLang}) => {
   const classes = useStyles();
 
   return (
@@ -52,7 +57,7 @@ const Header = () => {
 
         <Divider className={classes.divider} orientation="vertical" />
         <div className={s.language}>
-          <Localization />
+          <Localization handleChangeLang={handleChangeLang}/>
         </div>
       </Paper>
     </header>
