@@ -24,7 +24,6 @@ function App() {
       return item.name.match(reg)
     }) || [];
 
-    console.log(searchedCountries)
     setDataCountries(searchedCountries)
   }
 
