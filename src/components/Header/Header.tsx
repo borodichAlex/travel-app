@@ -56,7 +56,10 @@ const Header: React.FC<IHeader> = ({ handleSearch}) => {
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
-          <IconButton type="submit" className={classes.iconButton} aria-label="search">
+          <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={(e) => {
+            e.preventDefault()
+            handleSearch(value)
+            }}>
             <SearchIcon  />
           </IconButton>
         </Route>
