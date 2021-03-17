@@ -3,7 +3,6 @@ interface ICountry {
   imageUrl: string;
   location: ILocation;
   currency: ICurrency;
-  // localizations: ILocalization[];
   ISOCode: string;
   capital: string;
   name: string;
@@ -16,19 +15,10 @@ interface ICardCountry {
   imgUrl: string;
 }
 
-interface ILocalization {
-  lang: string;
-  name: string;
-  capital: string;
-  description: string;
-  currency: {
-    fullName: string;
-  };
-}
-
 interface ICurrency {
   name: string;
   symbol: string;
+  fullName: string;
 }
 
 interface ILocation {
@@ -39,11 +29,6 @@ interface ILocation {
 interface ICoordinates {
   lat: number;
   lon: number;
-}
-
-interface IImageUrl {
-  large: string;
-  small: string;
 }
 
 type ILangs = "en" | "ru" | "be";
@@ -73,7 +58,6 @@ interface IPlaces {
 
 interface IState {
   countries?:  Array<ICountry>
-  lang:  ILangs
   places: Array<IPlaces>
 }
 
