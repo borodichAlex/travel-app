@@ -7,8 +7,9 @@ function handleSubmit(e: any) {
     e.preventDefault();
 
     console.log(e.currentTarget);
-    const result: any = fetch('https://rs-travel-app1.herokuapp.com/users/create', {
+    const result: any = fetch('http://localhost:3000/users/create', {
         method: 'POST',
+        credentials: 'include',
         body: new FormData(e.currentTarget)
     });
 

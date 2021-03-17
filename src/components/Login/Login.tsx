@@ -3,12 +3,19 @@ import {Grid, TextField, Button, Container} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 
+//https://rs-travel-app1.herokuapp.com/
+
+// headers: {
+//     'access-control-expose-headers': 'Set-Cookie'
+// },
+
 function handleSubmit(e: any) {
     e.preventDefault();
 
     console.log(e.currentTarget);
-    const result: any = fetch('https://rs-travel-app1.herokuapp.com/users/login', {
+    const result: any = fetch('http://localhost:3000/users/login', {
         method: 'POST',
+        credentials: 'include',
         body: new FormData(e.currentTarget)
     });
 
