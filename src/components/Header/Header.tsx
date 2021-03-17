@@ -6,6 +6,11 @@ import { Paper, InputBase, Divider, IconButton } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import Localization from '../Localization/Localization';
 import { Route } from 'react-router';
+import { useState } from 'react';
+
+interface IHeader {
+  handleSearch: (value: string) => void
+}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -29,12 +34,17 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const Header: React.FC = () => {
+const Header: React.FC<IHeader> = ({ handleSearch}) => {
   const classes = useStyles();
+
+  const [value, setValue] = useState('');
 
   return (
     <header>
-      <Paper component="form" className={`${classes.root} ${s.root}`}>
+      <Paper component="form" className={`${classes.root} ${s.root}`} onSubmit={(e) => {
+        handleSearch(value);
+        e.preventDefault();
+      }}>
         <IconButton className={classes.iconButton} aria-label="menu">
           <img src={Logo} width='20' alt="logo"/>
         </IconButton>
@@ -43,9 +53,14 @@ const Header: React.FC = () => {
             className={classes.input}
             placeholder="Search country"
             inputProps={{ 'aria-label': 'search country' }}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
           />
-          <IconButton type="submit" className={classes.iconButton} aria-label="search">
-            <SearchIcon />
+          <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={(e) => {
+            e.preventDefault()
+            handleSearch(value)
+            }}>
+            <SearchIcon  />
           </IconButton>
         </Route>
 
