@@ -1,3 +1,6 @@
+// import { getDataCountries } from "./services/getDataCountries";
+const lang = "be";
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
@@ -30,6 +33,18 @@ function App() {
     setLang(lang);
   }, [state.lang?.state])
 
+
+    getDataCountries().then((data: ICountry[]) => {
+      if (mounted) {
+        setDataCountries(data);
+      }
+    });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
   useEffect(() => {
 
     getData(lang, 'countries')            
@@ -47,10 +62,11 @@ function App() {
 
   }, [lang]);
 
+
   useEffect(() => {
     const data = destructDataCardsFromDataCountries(dataCountries, lang);
     setDataCards(data);
-  }, [dataCountries])
+  }, [dataCountries]);
 
   return (
     <Router>
@@ -72,8 +88,8 @@ function App() {
           </Route>
           <Redirect to="/404" />
         </Switch>
-        </main>
 
+        </main>
         <Footer />
       </div>
     </Router>
