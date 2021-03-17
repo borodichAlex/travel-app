@@ -1,16 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Menu, { MenuProps } from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import Languages from '../../assets/Languages.png'
+import ImgLanguages from '../../assets/Languages.png'
 
 import s from './Localization.module.scss';
+import { LangContext } from '../../contexts/lang-context';
 import { ILangs } from '../../interfaces';
-
-interface ILocal {
-  handleChangeLang: (lang: ILangs) => void
-}
 
 const StyledMenu = withStyles({
   paper: {
@@ -43,12 +40,39 @@ const StyledMenuItem = withStyles((theme) => ({
   },
 }))(MenuItem);
 
-const Localization: React.FC<ILocal> = ({handleChangeLang}) => {
+type ILang = {
+  ru: string,
+  en: string,
+  be: string,
+}
+
+const Languages: ILangs[] = ['en', 'ru', 'be'];
+
+const LocalizationLangs: { [index: string]: ILang } = {
+  ru: {
+    ru: 'Русский',
+    en: 'Английский',
+    be: 'Белорусский',
+  },
+  en: {
+    ru: 'Russian',
+    en: 'English',
+    be: 'Belorussian',
+  },
+  be: {
+    ru: 'Руская',
+    en: 'Английская',
+    be: 'Беларуская',
+  },
+}
+
+const Localization: React.FC = () => {
+  const { lang, setLanguage } = useContext(LangContext);
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
-
   };
 
   const handleClose = () => {
@@ -65,7 +89,7 @@ const Localization: React.FC<ILocal> = ({handleChangeLang}) => {
         onClick={handleClick}
         className={s.btn}
       >
-        <img src={Languages} width='30' alt="" className={s.language} />
+        <img src={ImgLanguages} width='30' alt="img lang" className={s.language} />
       </Button>
       <StyledMenu
         id="customized-menu"
@@ -74,27 +98,13 @@ const Localization: React.FC<ILocal> = ({handleChangeLang}) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledMenuItem 
-          onClick={() => {
-            handleChangeLang('be')
-          }}
-        >
-          Belarusian
-        </StyledMenuItem>
-        <StyledMenuItem 
-          onClick={() => {
-            handleChangeLang('ru')
-          }}
-        >
-          Russian
-        </StyledMenuItem>
-        <StyledMenuItem 
-          onClick={() => {
-            handleChangeLang('en')
-          }}
-        >
-          English
-        </StyledMenuItem>
+
+        {
+          Object.values(Languages).map((language, index) => {
+            return <StyledMenuItem key={index} onClick={() => {setLanguage(language)}} >{LocalizationLangs[lang][language]}</StyledMenuItem>
+          })
+        }
+
       </StyledMenu>
     </div>
   );
