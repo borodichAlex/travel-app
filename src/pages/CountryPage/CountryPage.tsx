@@ -24,7 +24,7 @@ const CountryPage = (props: any) => {
   const classes = useStyles();
 
   return (
-    <div className={s.container}>
+    <>
       <Card className={classes.root}>
         <CardMedia
           component="img"
@@ -39,7 +39,7 @@ const CountryPage = (props: any) => {
           </Typography>
           <Typography variant="h4" color="textSecondary" component="span">
             {/* {props.capital} */}
-            Ottava
+            Ottawa
           </Typography>
         </Box>
         <CardContent>
@@ -59,7 +59,7 @@ const CountryPage = (props: any) => {
       </Card>
       {/* <InfoDate lang={"en"} timezone={" "} /> */}
       <Gallery />
-    </div>
+    </>
   );
 };
 
