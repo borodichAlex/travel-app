@@ -1,5 +1,5 @@
-import { Card } from '../Card';
-import { ICardCountry } from '../../interfaces';
+import { Card } from '../../../../components/Card';
+import { ICardCountry } from '../../../../interfaces';
 
 export const ListCardsCountries = (data: ICardCountry[]) => {
   return data.map(({id, name, capital, imgUrl}) => (

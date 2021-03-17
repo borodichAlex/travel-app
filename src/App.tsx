@@ -1,94 +1,52 @@
-// import { getDataCountries } from "./services/getDataCountries";
-// const lang = "be";
-
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
-import Footer from './components/Footer/Footer';
-import { ICardCountry, ICountry, IPlaces, ILangs, IState } from './interfaces';
-import { getData } from './services/getData';
-import { destructDataCardsFromDataCountries } from './services/destructDataCardsFromDataCountries';
-import GridCards from './components/GridCards/GridCards';
-import { composeMultiple } from './helpers/composeMultiple';
-import { ListWithLink } from './components/ListWithLinks/ListWithLinks';
-import { ListCardsCountries } from './components/ListCardsCountries/ListCardsCountries';
-
-import './App.css';
-import Header from './components/Header/Header';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCountries, setPlaces } from './redux/actions/actions';
+import { setCountries } from './redux/actions/actions';
+import { LangContext } from './contexts/lang-context';
+import Footer from './components/Footer/Footer';
+import MainPage from './pages/MainPage/MainPage';
+import Header from './components/Header/Header';
 import Page404 from './pages/Page404/Page404';
-
-
+import { getData } from './services/getData';
+import { ICountry, IState } from './interfaces';
 
 function App() {
   const [dataCountries, setDataCountries] = useState<ICountry[] | []>([]);
-  const [dataCards, setDataCards] = useState<ICardCountry[] | []>([]);
-  const [lang, setLang] = useState('en');
   const state: IState = useSelector(state => state)
   const dispatch = useDispatch();
+  const { lang } = useContext(LangContext);
 
   const handleSearch = (value: string) => {
-    
+
     const searchedCountries = state.countries?.state.filter((item) => {
       const reg = new RegExp(value, 'i');
       return item.name.match(reg)
     }) || [];
+
+    console.log(searchedCountries)
     setDataCountries(searchedCountries)
   }
 
-  useEffect(() => {
-    
-    if(!localStorage.getItem('lang')) {
-      localStorage.setItem('lang', 'en')
-    }
-    setLang(localStorage.getItem('lang') || 'en');
-
-  }, [])
-
 
   useEffect(() => {
-
-    getData(lang, 'countries')            
+    getData(lang, 'countries')
       .then((data: ICountry[]) => {
-          setDataCountries(data);
-          dispatch(setCountries(data))
+        dispatch(setCountries(data))
+        setDataCountries(data)
       })
-
-      getData(lang, 'places')            
-      .then((data: Array<IPlaces>) => {       
-
-          dispatch(setPlaces(data))
-
-      })
-
-  }, [lang]);
-
-
-  useEffect(() => {
-    const data = destructDataCardsFromDataCountries(dataCountries, lang);
-    setDataCards(data);
-  }, [dataCountries]);
-
-  const handleChangeLang = (lang: ILangs) => {
-    localStorage.setItem('lang', lang);
-    setLang(lang);
-  }
+  }, [lang, dispatch]);
 
   return (
     <Router>
       <div className="App">
         <Header 
-          handleChangeLang={handleChangeLang}
           handleSearch={handleSearch} 
         />
 
         <main>
         <Switch>
           <Route exact path="/">
-            <GridCards>
-              {composeMultiple(ListWithLink, ListCardsCountries)(dataCards)}
-            </GridCards>
+            <MainPage dataCountries={dataCountries}/>
           </Route>
           <Route path="/country/:id">
             <h2>Country</h2>
