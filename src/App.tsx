@@ -7,6 +7,8 @@ import Footer from './components/Footer/Footer';
 import MainPage from './pages/MainPage/MainPage';
 import Header from './components/Header/Header';
 import Page404 from './pages/Page404/Page404';
+import Registration from './components/Registration/Registration';
+import Login from './components/Login/Login';
 import { getData } from './services/getData';
 import { ICountry } from './interfaces';
 
@@ -37,6 +39,12 @@ function App() {
           </Route>
           <Route path="/404">
             <Page404 />
+          </Route>
+          <Route path="/registration">
+            <Registration />
+          </Route>
+          <Route path="/login">
+            <Login/>
           </Route>
           <Redirect to="/404" />
         </Switch>

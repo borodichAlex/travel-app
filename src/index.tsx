@@ -8,7 +8,7 @@ import { Provider } from 'react-redux';
 import LangState from './contexts/lang-context';
 
 const store = createStore(
-  rootReducer, window && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__());
+  rootReducer, window && (window as any));
 
 
 ReactDOM.render(
