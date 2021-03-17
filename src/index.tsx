@@ -3,16 +3,19 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { createStore } from 'redux';
-import rootReducers from './redux/reducers'
+import { rootReducer } from './redux/reducers';
 import { Provider } from 'react-redux';
+import LangState from './contexts/lang-context';
 
 const store = createStore(
-  rootReducers, window && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__());
+  rootReducer, window && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__());
 
 
 ReactDOM.render(
   <Provider store={store}>
+    <LangState>
       <App />
+    </LangState>
   </Provider>,
   document.getElementById('root')
 );
