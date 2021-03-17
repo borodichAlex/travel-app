@@ -9,4 +9,4 @@
 - Run `yarn install` in command line
 - Run `yarn start` in command line
 
-### Link to the demo ![borodichalex-travel-app.netlify.app](borodichalex-travel-app.netlify.app)
+### Link to the demo [https://borodichalex-travel-app.netlify.app/](https://borodichalex-travel-app.netlify.app/)
