@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
 import { useHistory, useParams } from "react-router";
 import { ICountry } from "../../interfaces";
+import { LangContext } from "../../contexts/lang-context";
 
 const useStyles = makeStyles({
   root: {
@@ -24,9 +25,9 @@ const useStyles = makeStyles({
   },
 });
 
-const CountryPage = (props: any) => {
+const CountryPage = () => {
   const classes = useStyles();
-  const lang: any = localStorage.getItem("lang") || "en";
+  const { lang } = useContext(LangContext);
 
   const dataCountries = useSelector((state: RootState) => state.countries);
   const [countryData, setCountryData] = useState<ICountry>();
@@ -40,7 +41,7 @@ const CountryPage = (props: any) => {
       history.push("/");
     }
     setCountryData(data[0]);
-  }, []);
+  });
 
   if (!countryData) {
     return <div>Loading...</div>;
@@ -76,11 +77,11 @@ const CountryPage = (props: any) => {
       </Card>
       <InfoWeather city={`${countryData.capital}`} lang={lang} />
       <InfoDate lang={lang} timezone={countryData.location.timezone} />
-      {/* <Map
+      <Map
         lang={lang}
-        isoCountry={countryData.isoCountry}
-        coordinates={countryData.coordinates}
-      /> */}
+        isoCountry={countryData.ISOCode}
+        coordinates={countryData.location.coordinates}
+      />
       <VideoPlayer videoUrl={countryData.videoUrl} />
       <Gallery />
     </>
