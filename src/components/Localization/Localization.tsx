@@ -6,8 +6,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Languages from '../../assets/Languages.png'
 
 import s from './Localization.module.scss';
-import { useDispatch } from 'react-redux';
-import { setLang } from '../../redux/actions/actions';
+import { ILangs } from '../../interfaces';
+
+interface ILocal {
+  handleChangeLang: (lang: ILangs) => void
+}
 
 const StyledMenu = withStyles({
   paper: {
@@ -40,9 +43,8 @@ const StyledMenuItem = withStyles((theme) => ({
   },
 }))(MenuItem);
 
-export default function Localization() {
+const Localization: React.FC<ILocal> = ({handleChangeLang}) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const dispatch = useDispatch();
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -72,16 +74,30 @@ export default function Localization() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledMenuItem onClick={() => dispatch(setLang('be'))}>
+        <StyledMenuItem 
+          onClick={() => {
+            handleChangeLang('be')
+          }}
+        >
           Belarusian
         </StyledMenuItem>
-        <StyledMenuItem onClick={() => dispatch(setLang('ru'))}>
+        <StyledMenuItem 
+          onClick={() => {
+            handleChangeLang('ru')
+          }}
+        >
           Russian
         </StyledMenuItem>
-        <StyledMenuItem onClick={() => dispatch(setLang('en'))}>
+        <StyledMenuItem 
+          onClick={() => {
+            handleChangeLang('en')
+          }}
+        >
           English
         </StyledMenuItem>
       </StyledMenu>
     </div>
   );
 }
+
+export default Localization;
