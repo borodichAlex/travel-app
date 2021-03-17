@@ -1,5 +1,5 @@
-import React, {useRef} from 'react';
-import { FormGroup, Grid, TextField, Button, Container, FormControlLabel, Checkbox, FormLabel, Input } from '@material-ui/core';
+import React from 'react';
+import {Grid, TextField, Button, Container} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 
 
@@ -7,7 +7,7 @@ function handleSubmit(e: any) {
     e.preventDefault();
 
     console.log(e.currentTarget);
-    const result: any = fetch('http://localhost:3000/users/create', {
+    const result: any = fetch('https://rs-travel-app1.herokuapp.com/users/create', {
         method: 'POST',
         body: new FormData(e.currentTarget)
     });
@@ -18,11 +18,9 @@ function handleSubmit(e: any) {
 }
 
 const Registration = (props: any) => {
-    const form = useRef(null);
-
     return (
         <Container maxWidth="xs" style={{marginTop: "20px"}}>
-            <form noValidate ref={form} onSubmit={(e) => handleSubmit(e)}>
+            <form noValidate onSubmit={(e) => handleSubmit(e)}>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
                         <TextField
