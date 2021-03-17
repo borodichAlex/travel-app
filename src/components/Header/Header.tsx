@@ -2,10 +2,11 @@ import s from './Header.module.scss'
 import Logo from '../../assets/Logo.png';
 
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Paper, InputBase, Divider, IconButton } from '@material-ui/core';
+import { Link as RouterLink } from 'react-router-dom'
+import { Paper, InputBase, IconButton, Button, ButtonGroup, Link } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import Localization from '../Localization/Localization';
-import { Route } from 'react-router';
+import { Route, useHistory } from 'react-router';
 import { useState } from 'react';
 
 interface IHeader {
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: '2px 4px',
       display: 'flex',
       alignItems: 'center',
+      justifyContent: 'flex-end',
       width: 400,
     },
     input: {
@@ -25,29 +27,37 @@ const useStyles = makeStyles((theme: Theme) =>
       flex: 1,
     },
     iconButton: {
+      marginRight: 'auto',
+      marginLeft: 10,
       padding: 10,
-    },
-    divider: {
-      height: 28,
-      margin: 4,
     },
   }),
 );
 
 const Header: React.FC<IHeader> = ({ handleSearch}) => {
   const classes = useStyles();
+  const authorized = Boolean(document.cookie.split('=')[1]);
+  const history = useHistory();
+
+  async function handlerClick() {
+    fetch('https://rs-travel-app1.herokuapp.com/users/unlogin', {
+        credentials: 'include'
+    })
+
+    history.push('/login');
+}
 
   const [value, setValue] = useState('');
 
   return (
     <header>
-      <Paper component="form" className={`${classes.root} ${s.root}`} onSubmit={(e) => {
-        handleSearch(value);
-        e.preventDefault();
-      }}>
-        <IconButton className={classes.iconButton} aria-label="menu">
-          <img src={Logo} width='20' alt="logo"/>
-        </IconButton>
+      <Paper component="form" className={`${classes.root} ${s.root}`}>
+        <Link className={classes.iconButton} underline='none' component={RouterLink} to='/'>
+          <IconButton  aria-label="menu">
+            <img src={Logo} width='20' alt="logo"/>
+          </IconButton>
+        </Link>
+
         <Route exact path='/'>
           <InputBase
             className={classes.input}
@@ -64,10 +74,17 @@ const Header: React.FC<IHeader> = ({ handleSearch}) => {
           </IconButton>
         </Route>
 
-        <Divider className={classes.divider} orientation="vertical" />
+        <ButtonGroup color="primary" aria-label="outlined primary button group" style={{marginLeft: '10px', marginRight: '10px'}}>
+            {authorized
+            ? <Button onClick={handlerClick}>Log out</Button>
+            : <Button><RouterLink to="/login">Log in</RouterLink></Button>
+        }
+        </ButtonGroup>
+
         <div className={s.language}>
           <Localization />
         </div>
+
       </Paper>
     </header>
   );
