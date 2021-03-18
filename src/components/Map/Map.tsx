@@ -46,7 +46,7 @@ export default function Map(props: IMapProps) {
     isoCountry,
   } = props;
 
-  let { height, width } = useWindowDimensions();
+  let { width } = useWindowDimensions();
   const mapSize = width > 700 ? "700px" : String(width - 50 + 'px');
 
   const mapRef = useRef<any>(null);

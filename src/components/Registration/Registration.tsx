@@ -2,24 +2,25 @@ import React from 'react';
 import {Grid, TextField, Button, Container} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import {useHistory} from 'react-router'
+import { BASE_URL } from '../../services/constants';
 
 
 
 const Registration = (props: any) => {
     let history = useHistory();
 
-    function handleSubmit(e: any) {
+    async function handleSubmit(e: any) {
         e.preventDefault();
-    
-        console.log(e.currentTarget);
-        const result: any = fetch('https://rs-travel-app1.herokuapp.com/users/create', {
+
+        const result: any = await fetch(`${BASE_URL}/users/create`, {
             method: 'POST',
             credentials: 'include',
             body: new FormData(e.currentTarget)
         });
-        
+
         if(result.ok) {
             history.push('/');
+            props.forceHeaderRefresh();
         }
     }
 

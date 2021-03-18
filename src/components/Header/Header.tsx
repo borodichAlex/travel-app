@@ -6,12 +6,15 @@ import { Link as RouterLink } from 'react-router-dom'
 import { Paper, InputBase, IconButton, Button, ButtonGroup, Link } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import Localization from '../Localization/Localization';
-import { Route, useHistory } from 'react-router';
-import { useState } from 'react';
+import { Route, useHistory} from 'react-router';
+import { BASE_URL } from '../../services/constants';
+import {useState} from 'react'
 
 interface IHeader {
   handleSearch: (value: string) => void;
+  refresher: number;
 }
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -39,13 +42,19 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
   const authorized = Boolean(document.cookie.split('=')[1]);
   const history = useHistory();
 
+  const [count, setForceUpdate] = useState(0);
+
   async function handlerClick() {
-    fetch('https://rs-travel-app1.herokuapp.com/users/unlogin', {
+    await fetch(`${BASE_URL}/users/unlogin`, {
         credentials: 'include'
     })
-
     history.push('/login');
-}
+    forceUpdate();
+  }
+
+    function forceUpdate() {
+        setForceUpdate(count + 1);
+    }
 
   const [value, setValue] = useState("");
 
