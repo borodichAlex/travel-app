@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useContext, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCountries } from './redux/actions/actions';
@@ -16,6 +16,7 @@ function App() {
   const dispatch = useDispatch();
 
   const { lang } = useContext(LangContext);
+  const [counter, setCounter] = useState(0);
 
   useEffect(() => {
     getData(lang, 'countries')
@@ -24,10 +25,12 @@ function App() {
       })
   }, [lang, dispatch]);
 
+  const refreshHeader = () => setCounter(counter + 1);
+
   return (
     <Router>
       <div className="App">
-        <Header />
+        <Header refresher={counter} />
 
         <main>
         <Switch>
@@ -41,10 +44,10 @@ function App() {
             <Page404 />
           </Route>
           <Route path="/registration">
-            <Registration />
+            <Registration forceHeaderRefresh={refreshHeader}/>
           </Route>
           <Route path="/login">
-            <Login/>
+            <Login forceHeaderRefresh={refreshHeader}/>
           </Route>
           <Redirect to="/404" />
         </Switch>

@@ -2,9 +2,8 @@ import React, {useRef} from 'react';
 import {Grid, TextField, Button, Container} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import {useHistory} from 'react-router-dom'
+import { LOCALHOST_BASE_URL } from '../../services/constants';
 
-//https://rs-travel-app1.herokuapp.com/
-//http://localhost:3000/
 
 const Login = (props: any) => {
     let history = useHistory();
@@ -12,8 +11,7 @@ const Login = (props: any) => {
     async function handleSubmit(e: any) {
         e.preventDefault();
 
-        console.log(e.currentTarget);
-        const result: any = await fetch('https://rs-travel-app1.herokuapp.com/users/login', {
+        const result: any = await fetch(`${LOCALHOST_BASE_URL}/users/login`, {
             method: 'POST',
             credentials: 'include',
             body: new FormData(e.currentTarget)
@@ -21,6 +19,7 @@ const Login = (props: any) => {
 
         if(result.ok) {
             history.push('/');
+            props.forceHeaderRefresh();
         }
     }
 

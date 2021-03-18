@@ -7,6 +7,9 @@ import { Paper, InputBase, IconButton, Button, ButtonGroup, Link } from '@materi
 import SearchIcon from '@material-ui/icons/Search';
 import Localization from '../Localization/Localization';
 import { Route, useHistory} from 'react-router';
+import { LOCALHOST_BASE_URL } from '../../services/constants';
+import {useState} from 'react'
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,20 +33,24 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-
-
-const Header: React.FC = () => {
+const Header = (props: any) => {
   const classes = useStyles();
   const authorized = Boolean(document.cookie.split('=')[1]);
   const history = useHistory();
 
+  const [count, setForceUpdate] = useState(0);
+
   async function handlerClick() {
-    fetch('https://rs-travel-app1.herokuapp.com/users/unlogin', {
+    await fetch(`${LOCALHOST_BASE_URL}/users/unlogin`, {
         credentials: 'include'
     })
-
     history.push('/login');
-}
+    forceUpdate();
+  }
+
+    function forceUpdate() {
+        setForceUpdate(count + 1);
+    }
 
   return (
     <header>
