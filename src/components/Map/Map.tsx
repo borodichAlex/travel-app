@@ -1,4 +1,5 @@
 import { useRef, Ref } from "react";
+import useWindowDimensions from '../../hooks/useWindowDimensions';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {
   Map as YMap,
@@ -24,14 +25,10 @@ interface IMapProps {
   coordinates: ICoordinates;
   lang: ILangs;
   isoCountry: string;
-  sizeMap?: { w: string; h: string };
 }
 
 const useStyles = makeStyles({
-  map: (props: IMapProps) => ({
-    height: props.sizeMap ? props.sizeMap.h : "250px",
-    width: props.sizeMap ? props.sizeMap.w : "250px",
-
+  map: {
     "& > ymaps > ymaps": {
       borderRadius: "25px",
     },
@@ -39,7 +36,7 @@ const useStyles = makeStyles({
     "& > ymaps > ymaps > ymaps": {
       borderRadius: "25px",
     },
-  }),
+  }
 });
 
 export default function Map(props: IMapProps) {
@@ -49,9 +46,18 @@ export default function Map(props: IMapProps) {
     isoCountry,
   } = props;
 
+  let { height, width } = useWindowDimensions();
+  const mapSize = width > 700 ? "700px" : String(width - 50 + 'px');
+
   const mapRef = useRef<any>(null);
 
-  const classes = useStyles(props);
+  const classes = useStyles();
+
+  const stylesMap = {
+    height: mapSize,
+    width: mapSize,
+    margin: '30px auto'
+  }
 
   const highlightCountry = (ymaps: any) => {
     if (mapRef && mapRef.current) {
@@ -88,6 +94,7 @@ export default function Map(props: IMapProps) {
           className={classes.map}
           onLoad={(ymaps: any) => highlightCountry(ymaps)}
           modules={["borders", "ObjectManager", "geoQuery"]}
+          style={stylesMap}
         >
           <Placemark geometry={[lat, lon]} />
           <FullscreenControl />

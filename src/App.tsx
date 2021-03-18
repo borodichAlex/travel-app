@@ -1,21 +1,19 @@
-import { useEffect, useContext, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { setCountries, setPlaces } from "./redux/actions/actions";
-import { LangContext } from "./contexts/lang-context";
-import Footer from "./components/Footer/Footer";
-import MainPage from "./pages/MainPage/MainPage";
-import Header from "./components/Header/Header";
-import Page404 from "./pages/Page404/Page404";
-import { getData } from "./services/getData";
-import { ICountry, IPlaces } from "./interfaces";
-import { RootState } from "./redux/reducers";
+
+import { useEffect, useContext, useState } from 'react';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCountries } from './redux/actions/actions';
+import { LangContext } from './contexts/lang-context';
+import Footer from './components/Footer/Footer';
+import MainPage from './pages/MainPage/MainPage';
 import { CountryPage } from "./pages/CountryPage/CountryPage";
+import Header from './components/Header/Header';
+import Page404 from './pages/Page404/Page404';
+import Registration from './components/Registration/Registration';
+import Login from './components/Login/Login';
+import { getData } from './services/getData';
+import { ICountry } from './interfaces';
+import { RootState } from './redux/reducers';
 
 function App() {
   const [dataCountries, setDataCountries] = useState<ICountry[] | []>([]);
@@ -38,10 +36,6 @@ function App() {
       dispatch(setCountries(data));
       setDataCountries(data);
     });
-
-    getData(lang, "places").then((data: IPlaces[]) => {
-      dispatch(setPlaces(data));
-    });
   }, [lang, dispatch]);
 
   return (
@@ -50,19 +44,26 @@ function App() {
         <Header handleSearch={handleSearch} />
 
         <main>
-          <Switch>
-            <Route exact path="/">
-              <MainPage dataCountries={dataCountries} />
-            </Route>
-            <Route path="/country/:id">
-              <CountryPage />
-            </Route>
-            <Route path="/404">
-              <Page404 />
-            </Route>
-            <Redirect to="/404" />
-          </Switch>
+        <Switch>
+          <Route exact path="/">
+            <MainPage dataCountries={dataCountries}/>
+          </Route>
+          <Route path="/country/:id">
+            <CountryPage />
+          </Route>
+          <Route path="/404">
+            <Page404 />
+          </Route>
+          <Route path="/registration">
+            <Registration />
+          </Route>
+          <Route path="/login">
+            <Login/>
+          </Route>
+          <Redirect to="/404" />
+        </Switch>
         </main>
+
         <Footer />
       </div>
     </Router>

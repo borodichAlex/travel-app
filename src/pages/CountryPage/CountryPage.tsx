@@ -1,22 +1,20 @@
-import React, { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import CardMedia from "@material-ui/core/CardMedia";
-import Typography from "@material-ui/core/Typography";
-import { Box } from "@material-ui/core";
+import { Card, Grid, CardContent, CardMedia, Typography, Box } from "@material-ui/core";
 import s from "./CountryPage.module.scss";
 import InfoDate from "../../components/InfoDate/InfoDate";
 import Gallery from "../../components/Gallery/Gallery";
 import InfoWeather from "../../components/InfoWeather/InfoWeather";
 import Map from "../../components/Map/Map";
 import { VideoPlayer } from "../../components/Video/Video";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
 import { useHistory, useParams } from "react-router";
-import { ICountry } from "../../interfaces";
+import { ICountry, IPlaces } from "../../interfaces";
 import { LangContext } from "../../contexts/lang-context";
 import CurrencyConverter from "../../components/CurrencyConverter/CurrencyConverter";
+import { getData } from "../../services/getData";
+import { setPlaces } from '../../redux/actions/actions';
 
 const useStyles = makeStyles({
   root: {
@@ -30,6 +28,8 @@ const CountryPage = () => {
   const classes = useStyles();
   const { lang } = useContext(LangContext);
 
+  const dispatch = useDispatch();
+
   const dataCountries = useSelector((state: RootState) => state.countries);
   const [countryData, setCountryData] = useState<ICountry>();
 
@@ -42,15 +42,28 @@ const CountryPage = () => {
       history.push("/");
     }
     setCountryData(data[0]);
-    console.log(countryData);
   });
+
+  useEffect(() => {
+    getData(lang, "places").then((data: IPlaces[]) => {
+      dispatch(setPlaces(data));
+    });
+  }, [lang, dispatch]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   if (!countryData) {
     return <div>Loading...</div>;
   }
 
   return (
-    <>
+    <Grid
+      container
+      direction="column"
+      justify="center"
+    >
       <Card className={classes.root}>
         <CardMedia
           component="img"
@@ -77,17 +90,31 @@ const CountryPage = () => {
           </Typography>
         </CardContent>
       </Card>
-      <InfoWeather city={`${countryData.capital}`} lang={lang} />
-      {/* <CurrencyConverter currency={} /> */}
-      <InfoDate lang={lang} timezone={countryData.location.timezone} />
-      <Map
-        lang={lang}
-        isoCountry={countryData.ISOCode}
-        coordinates={countryData.location.coordinates}
-      />
-      <VideoPlayer videoUrl={countryData.videoUrl} />
-      <Gallery id={countryData.id} />
-    </>
+      <Grid container item direction="column" alignItems="center" style={{padding: '1vw'}}>
+        <Grid item><VideoPlayer videoUrl={countryData.videoUrl} /></Grid>
+        <Grid item><Gallery id={countryData.id} /></Grid>
+      </Grid>
+      <Grid item container alignItems="center" justify="center" style={{padding: '3vw'}}>
+        <Grid container item direction="column" style={{maxWidth: '500px'}}>
+          <Grid item>
+            <InfoDate lang={lang} timezone={countryData.location.timezone} />
+          </Grid>
+          <Grid item>
+            <InfoWeather city={`${countryData.capital}`} lang={lang} />
+          </Grid>
+        </Grid>
+        <Grid item style={{marginLeft: '15px'}}>
+          <CurrencyConverter currency={{name: countryData.currency.fullName, code: countryData.currency.name}} />
+        </Grid>
+        <Grid item>
+          <Map
+            lang={lang}
+            isoCountry={countryData.ISOCode}
+            coordinates={countryData.location.coordinates}
+          />
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 

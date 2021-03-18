@@ -141,7 +141,6 @@ const Gallery: React.FC<IGallery> = ({ id }) => {
         </button>
 
         <article className={s.description}>
-          {/* пока всё на англ */}
           <h2>{localPlaces[placeId].name}</h2>
           {localPlaces[placeId].description}
         </article>
