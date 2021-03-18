@@ -20,6 +20,7 @@ const Registration = (props: any) => {
 
         if(result.ok) {
             history.push('/');
+            localStorage.setItem('authorized', "true");
             props.forceHeaderRefresh();
         }
     }

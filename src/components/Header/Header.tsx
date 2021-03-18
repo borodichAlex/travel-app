@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Header: React.FC<IHeader> = ({ handleSearch }) => {
   const classes = useStyles();
-  const authorized = Boolean(document.cookie.split('=')[1]);
+  const authorized = Boolean(localStorage.getItem('authorized'));
   const history = useHistory();
 
   const [count, setForceUpdate] = useState(0);
@@ -49,6 +49,7 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
         credentials: 'include'
     })
     history.push('/login');
+    localStorage.setItem('authorized', "false");
     forceUpdate();
   }
 
