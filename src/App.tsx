@@ -12,6 +12,7 @@ import Login from './components/Login/Login';
 import { getData } from './services/getData';
 import { ICountry, IPlaces } from './interfaces';
 import { RootState } from './redux/reducers';
+import Gallery from './components/Gallery/Gallery';
 
 function App() {
   const [dataCountries, setDataCountries] = useState<ICountry[] | []>([]);
@@ -59,7 +60,8 @@ function App() {
             <MainPage dataCountries={dataCountries}/>
           </Route>
           <Route path="/country/:id">
-            <h2>Country</h2>
+            <Gallery></Gallery>
+            {/* <h2>Country</h2> */}
           </Route>
           <Route path="/404">
             <Page404 />
