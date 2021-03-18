@@ -20,6 +20,7 @@ function App() {
   const state = useSelector((state: RootState) => state.countries);
   const dispatch = useDispatch();
   const { lang } = useContext(LangContext);
+  const [counter, setCounter] = useState(0);
 
   const handleSearch = (value: string) => {
     const searchedCountries =
@@ -28,8 +29,8 @@ function App() {
         return item.name.match(reg);
       }) || [];
 
-    setDataCountries(searchedCountries);
-  };
+    setDataCountries(searchedCountries)
+  }
 
   useEffect(() => {
     getData(lang, "countries").then((data: ICountry[]) => {
@@ -38,10 +39,16 @@ function App() {
     });
   }, [lang, dispatch]);
 
+  const refreshHeader = () => setCounter(counter + 1);
+
   return (
     <Router>
       <div className="App">
-        <Header handleSearch={handleSearch} />
+
+        <Header
+          refresher={counter}
+          handleSearch={handleSearch}
+        />
 
         <main>
         <Switch>
@@ -55,10 +62,10 @@ function App() {
             <Page404 />
           </Route>
           <Route path="/registration">
-            <Registration />
+            <Registration forceHeaderRefresh={refreshHeader}/>
           </Route>
           <Route path="/login">
-            <Login/>
+            <Login forceHeaderRefresh={refreshHeader}/>
           </Route>
           <Redirect to="/404" />
         </Switch>
