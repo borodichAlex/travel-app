@@ -10,6 +10,10 @@ import { Route, useHistory} from 'react-router';
 import { LOCALHOST_BASE_URL } from '../../services/constants';
 import {useState} from 'react'
 
+interface IHeader {
+  handleSearch: (value: string) => void
+}
+
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,6 +56,8 @@ const Header = (props: any) => {
         setForceUpdate(count + 1);
     }
 
+  const [value, setValue] = useState('');
+
   return (
     <header>
       <Paper component="form" className={`${classes.root} ${s.root}`}>
@@ -66,9 +72,14 @@ const Header = (props: any) => {
             className={classes.input}
             placeholder="Search country"
             inputProps={{ 'aria-label': 'search country' }}
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
           />
-          <IconButton type="submit" className={classes.iconButton} aria-label="search">
-            <SearchIcon />
+          <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={(e) => {
+            e.preventDefault()
+            props.handleSearch(value);
+            }}>
+            <SearchIcon  />
           </IconButton>
         </Route>
 

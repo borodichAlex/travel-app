@@ -6,6 +6,8 @@ import Previous from '../../assets/Previous.png';
 import Fullscreen from '../../assets/Fullscreen.png'
 import { useSelector } from 'react-redux';
 import { IPlaces, IState } from '../../interfaces';
+import { RootState } from '../../redux/reducers';
+import { useHistory, useParams } from 'react-router';
 
 const Gallery = () => {
     const [placeId, setPlaceId] = useState(0);
@@ -14,18 +16,21 @@ const Gallery = () => {
     const imgRef = useRef<HTMLImageElement>(null);
     const [localPlaces, setLocalPlaces] = useState<IPlaces[] | []>([]) ;
 
-    const allPlaces = useSelector((state: IState) => state.places?.state)
+    const allPlaces = useSelector((state: IState) => state.places)
+    const history = useHistory();
+
+    const { id } = useParams<any>();
+
 
     useEffect(() => {
-        document.addEventListener('keyup', handleEscape)
+        document.addEventListener('keyup', handleEscape);
     }, [])
 
 
     useEffect(() => {
         if(allPlaces?.length) {
-            let localPlacesI = allPlaces.filter((item) => item.countryId === 3)           //Заменить при сборке всего в кучу
+            let localPlacesI = allPlaces.filter((item) => item.countryId == id)           //Заменить при сборке всего в кучу
             setLocalPlaces(localPlacesI);
-            console.log(localPlacesI)
         }
     }, [allPlaces])
 
