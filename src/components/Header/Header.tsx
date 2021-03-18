@@ -1,5 +1,5 @@
-import s from './Header.module.scss'
-import Logo from '../../assets/Logo.png';
+import s from "./Header.module.scss";
+import Logo from "../../assets/Logo.png";
 
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom'
@@ -10,7 +10,7 @@ import { Route, useHistory } from 'react-router';
 import { useState } from 'react';
 
 interface IHeader {
-  handleSearch: (value: string) => void
+  handleSearch: (value: string) => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -28,13 +28,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     iconButton: {
       marginRight: 'auto',
-      marginLeft: 10,
-      padding: 10,
+      marginLeft: 0,
+      padding: 0,
     },
   }),
 );
 
-const Header: React.FC<IHeader> = ({ handleSearch}) => {
+const Header: React.FC<IHeader> = ({ handleSearch }) => {
   const classes = useStyles();
   const authorized = Boolean(document.cookie.split('=')[1]);
   const history = useHistory();
@@ -47,11 +47,15 @@ const Header: React.FC<IHeader> = ({ handleSearch}) => {
     history.push('/login');
 }
 
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
 
   return (
     <header>
-      <Paper component="form" className={`${classes.root} ${s.root}`}>
+      <Paper component="form" className={`${classes.root} ${s.root}`}
+        onSubmit={(e) => {
+          handleSearch(value);
+          e.preventDefault();
+        }}>
         <Link className={classes.iconButton} underline='none' component={RouterLink} to='/'>
           <IconButton  aria-label="menu">
             <img src={Logo} width='20' alt="logo"/>
@@ -62,15 +66,20 @@ const Header: React.FC<IHeader> = ({ handleSearch}) => {
           <InputBase
             className={classes.input}
             placeholder="Search country"
-            inputProps={{ 'aria-label': 'search country' }}
+            inputProps={{ "aria-label": "search country" }}
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
-          <IconButton type="submit" className={classes.iconButton} aria-label="search" onClick={(e) => {
-            e.preventDefault()
-            handleSearch(value)
-            }}>
-            <SearchIcon  />
+          <IconButton
+            type="submit"
+            className={classes.iconButton}
+            aria-label="search"
+            onClick={(e) => {
+              e.preventDefault();
+              handleSearch(value);
+            }}
+          >
+            <SearchIcon />
           </IconButton>
         </Route>
 
@@ -88,6 +97,6 @@ const Header: React.FC<IHeader> = ({ handleSearch}) => {
       </Paper>
     </header>
   );
-}
+};
 
 export default Header;

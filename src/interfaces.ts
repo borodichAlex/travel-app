@@ -1,4 +1,6 @@
 interface ICountry {
+  videoUrl: string;
+  description: string;
   id: number;
   imageUrl: string;
   location: ILocation;

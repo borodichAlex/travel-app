@@ -58,10 +58,10 @@ const CurrencyConverter = (props: {currency: {name: string, code: string}}) => {
   }, [code])
 
   return (
-    <div style={{display: 'inline-flex', boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)'}}>
+    <div style={{display: 'inline-flex', flexWrap: 'wrap', justifyContent: 'center', margin: '20px auto', boxShadow: '0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%)'}}>
 
       <div style={{padding: '10px'}}>
-        <Typography component="h2" variant="h4">{name}</Typography>
+        <Typography component="h2" variant="h4" style={{textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '260px', overflow: 'hidden'}}>{name}</Typography>
         <div style={{display: 'flex', alignItems: 'baseline', justifyContent: 'space-around'}}>
           <Typography component="h3" variant="h5" style={{marginTop: '15px'}}>{code}: </Typography>
           <FormControl fullWidth variant="outlined" style={{margin: '20px'}}>
