@@ -39,7 +39,7 @@ const CountryPage = () => {
   useEffect(() => {
     const data = dataCountries.filter((item) => item.id == id);
     if (id > 8) {
-      history.push("/");
+      history.push("/404");
     }
     setCountryData(data[0]);
   });
