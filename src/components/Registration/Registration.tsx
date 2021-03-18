@@ -2,7 +2,7 @@ import React from 'react';
 import {Grid, TextField, Button, Container} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import {useHistory} from 'react-router'
-import { LOCALHOST_BASE_URL } from '../../services/constants';
+import { BASE_URL } from '../../services/constants';
 
 
 
@@ -12,7 +12,7 @@ const Registration = (props: any) => {
     async function handleSubmit(e: any) {
         e.preventDefault();
 
-        const result: any = await fetch(`${LOCALHOST_BASE_URL}/users/create`, {
+        const result: any = await fetch(`${BASE_URL}/users/create`, {
             method: 'POST',
             credentials: 'include',
             body: new FormData(e.currentTarget)
