@@ -4,7 +4,7 @@ import useWindowDimensions from '../../hooks/useWindowDimensions';
 import './InfoWeather.css';
 
 export default function InfoWeather(props) {
-  const { height, width } = useWindowDimensions();
+  const { width } = useWindowDimensions();
   const forecast = width > 1300 ? "5days" : "today";
 
   return (

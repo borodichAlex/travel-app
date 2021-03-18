@@ -1,8 +1,7 @@
-import React, {useRef} from 'react';
 import {Grid, TextField, Button, Container} from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import {useHistory} from 'react-router-dom'
-import { LOCALHOST_BASE_URL } from '../../services/constants';
+import { BASE_URL } from '../../services/constants';
 
 
 const Login = (props: any) => {
@@ -11,7 +10,7 @@ const Login = (props: any) => {
     async function handleSubmit(e: any) {
         e.preventDefault();
 
-        const result: any = await fetch(`${LOCALHOST_BASE_URL}/users/login`, {
+        const result: any = await fetch(`${BASE_URL}/users/login`, {
             method: 'POST',
             credentials: 'include',
             body: new FormData(e.currentTarget)

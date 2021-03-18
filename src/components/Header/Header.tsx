@@ -7,7 +7,7 @@ import { Paper, InputBase, IconButton, Button, ButtonGroup, Link } from '@materi
 import SearchIcon from '@material-ui/icons/Search';
 import Localization from '../Localization/Localization';
 import { Route, useHistory} from 'react-router';
-import { LOCALHOST_BASE_URL } from '../../services/constants';
+import { BASE_URL } from '../../services/constants';
 import {useState} from 'react'
 
 interface IHeader {
@@ -45,7 +45,7 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
   const [count, setForceUpdate] = useState(0);
 
   async function handlerClick() {
-    await fetch(`${LOCALHOST_BASE_URL}/users/unlogin`, {
+    await fetch(`${BASE_URL}/users/unlogin`, {
         credentials: 'include'
     })
     history.push('/login');
