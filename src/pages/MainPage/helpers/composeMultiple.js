@@ -1,1 +1,0 @@
-export const composeMultiple = (...fns) => (args) => fns.reduceRight((arg, fn) => fn(arg), args);
