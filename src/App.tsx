@@ -1,6 +1,6 @@
 
 import { useEffect, useContext, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect, useParams, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCountries } from './redux/actions/actions';
 import { LangContext } from './contexts/lang-context';
@@ -31,6 +31,14 @@ function App() {
 
     setDataCountries(searchedCountries)
   }
+  let location = useLocation();
+
+  useEffect(() => {
+    if(location.pathname === '/') {
+      const input = document.getElementById('header_input') ! as HTMLInputElement;
+      input.focus();
+    }
+  }, [])
 
   useEffect(() => {
     getData(lang, "countries").then((data: ICountry[]) => {

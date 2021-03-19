@@ -80,6 +80,7 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
             inputProps={{ "aria-label": "search country" }}
             value={value}
             onChange={(e) => setValue(e.target.value)}
+            id='header_input'
           />
           <button 
             className={s.clear_btn}

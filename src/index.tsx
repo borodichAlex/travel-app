@@ -6,6 +6,7 @@ import { createStore } from 'redux';
 import { rootReducer } from './redux/reducers';
 import { Provider } from 'react-redux';
 import LangState from './contexts/lang-context';
+import { BrowserRouter } from 'react-router-dom';
 
 const store = createStore(
   rootReducer,
@@ -13,9 +14,11 @@ const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
+    <BrowserRouter>
     <LangState>
       <App />
     </LangState>
+    </BrowserRouter>
   </Provider>,
   document.getElementById('root')
 );
