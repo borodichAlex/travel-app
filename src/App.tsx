@@ -22,6 +22,19 @@ function App() {
   const { lang } = useContext(LangContext);
   const [counter, setCounter] = useState(0);
 
+  
+
+  useEffect(() => {
+    getData(lang, "countries").then((data: ICountry[]) => {
+      dispatch(setCountries(data));
+      setDataCountries(data);
+    });
+  }, [lang, dispatch]);
+
+  
+
+  const refreshHeader = () => setCounter(counter + 1);
+  
   const handleSearch = (value: string) => {
     const searchedCountries =
       state.filter((item) => {
@@ -33,16 +46,6 @@ function App() {
 
     setDataCountries(searchedCountries)
   }
-  
-
-  useEffect(() => {
-    getData(lang, "countries").then((data: ICountry[]) => {
-      dispatch(setCountries(data));
-      setDataCountries(data);
-    });
-  }, [lang, dispatch]);
-
-  const refreshHeader = () => setCounter(counter + 1);
 
   return (
     <Router>

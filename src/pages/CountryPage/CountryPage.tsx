@@ -16,6 +16,7 @@ import CurrencyConverter from "../../components/CurrencyConverter/CurrencyConver
 import { getData } from "../../services/getData";
 import { setPlaces } from '../../redux/actions/actions';
 
+
 const useStyles = makeStyles({
   root: {
     maxWidth: "100%",
@@ -23,6 +24,8 @@ const useStyles = makeStyles({
     marginBottom: "4%",
   },
 });
+
+
 
 const CountryPage = () => {
   const classes = useStyles();
@@ -32,6 +35,7 @@ const CountryPage = () => {
 
   const dataCountries = useSelector((state: RootState) => state.countries);
   const [countryData, setCountryData] = useState<ICountry>();
+  const [countryEng, setCountryEng] = useState<ICountry[] | []>([]);
 
   let { id } = useParams<any>();
   const history = useHistory();
@@ -42,7 +46,17 @@ const CountryPage = () => {
       history.push("/404");
     }
     setCountryData(data[0]);
+
+    
   });
+
+  useEffect(() => {
+    console.log('asdasd')
+    getData('en', "countries").then((data: ICountry[]) => {
+      setCountryEng(data);
+      console.log(data)
+    });
+  }, [])
 
   useEffect(() => {
     getData(lang, "places").then((data: IPlaces[]) => {
@@ -100,7 +114,9 @@ const CountryPage = () => {
             <InfoDate lang={lang} timezone={countryData.location.timezone} />
           </Grid>
           <Grid item>
-            <InfoWeather city={`${countryData.capital}`} lang={lang} />
+            {
+              countryEng.length > 0 ? <InfoWeather key={Math.random()} id={id} city={lang === 'be' ? countryEng[+id+1].capital : countryData.capital} lang={lang} /> : <div>Loading</div>
+            }
           </Grid>
         </Grid>
         <Grid item style={{marginLeft: '15px'}}>
