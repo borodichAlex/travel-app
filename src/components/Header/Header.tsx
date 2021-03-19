@@ -1,5 +1,6 @@
 import s from "./Header.module.scss";
 import Logo from "../../assets/Logo.png";
+import Cross from '../../assets/Cross.png'
 
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom'
@@ -80,10 +81,15 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
-          <button></button>
+          <button 
+            className={s.clear_btn}
+            onClick={() => setValue('')}
+          >
+            <img src={Cross} alt="X"/>
+          </button>
           <IconButton
             type="submit"
-            className={classes.iconButton}
+            className={`${classes.iconButton} ${s.search}`}
             aria-label="search"
             onClick={(e) => {
               e.preventDefault();
