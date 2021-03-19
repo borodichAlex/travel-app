@@ -1,0 +1,41 @@
+.root {
+    height: 55px;
+    width: 100% !important;
+    box-sizing: border-box;
+}
+
+.btn {
+    margin-left: 10px;
+}
+
+.btn > Button {
+    background-color: rgba($color: #ffffff00, $alpha: 0);
+    height: 42px;
+}
+
+.clear_btn {
+    padding: 0;
+    border: none;
+    background-color: rgba(255, 255, 255, 0);
+    margin-right: 15px;
+    outline: none;
+
+    border-radius: 10px;
+
+    width: 24px;
+    height: 24px;
+}
+
+.clear_btn:active {
+    background-color: rgba(128, 128, 128, 0.129);
+}
+
+.search {
+    margin-right: 15px !important;
+}
+
+.clear_btn > img{
+    width: 24px;
+    height: 24px;
+    margin: 0;
+}
