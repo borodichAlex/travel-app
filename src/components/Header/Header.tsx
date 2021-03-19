@@ -9,7 +9,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import Localization from '../Localization/Localization';
 import { Route, useHistory} from 'react-router';
 import { BASE_URL } from '../../services/constants';
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 interface IHeader {
   handleSearch: (value: string) => void;
@@ -41,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const Header: React.FC<IHeader> = ({ handleSearch }) => {
   const classes = useStyles();
   const authorized = Boolean(localStorage.getItem('authorized'));
+  const [iPlaceholder, setIPlaceholder] = useState('Search country')
   const history = useHistory();
 
   const [count, setForceUpdate] = useState(0);
@@ -53,6 +54,23 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
     localStorage.setItem('authorized', "false");
     forceUpdate();
   }
+
+  useEffect(() => {
+    switch(localStorage.getItem('lang')) {
+      case 'be': {
+        setIPlaceholder('Пошук краіны');
+        break;
+      }
+
+      case 'ru': {
+        setIPlaceholder('Поиск страны');
+        break;
+      }
+      default: {
+        setIPlaceholder('Search country');
+      }
+    }
+  }, [localStorage.getItem('lang')])
 
     function forceUpdate() {
         setForceUpdate(count + 1);
@@ -76,7 +94,7 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
         <Route exact path='/'>
           <InputBase
             className={classes.input}
-            placeholder="Search country"
+            placeholder={iPlaceholder}
             inputProps={{ "aria-label": "search country" }}
             value={value}
             onChange={(e) => setValue(e.target.value)}
