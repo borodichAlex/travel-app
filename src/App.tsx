@@ -26,7 +26,9 @@ function App() {
     const searchedCountries =
       state.filter((item) => {
         const reg = new RegExp(value, "i");
-        return item.name.match(reg);
+        if(item.name.match(reg) || item.capital.match(reg)){
+          return true;
+        }
       }) || [];
 
     setDataCountries(searchedCountries)

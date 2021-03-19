@@ -100,12 +100,7 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
             onChange={(e) => setValue(e.target.value)}
             id='header_input'
           />
-          <button 
-            className={s.clear_btn}
-            onClick={() => setValue('')}
-          >
-            <img src={Cross} alt="X"/>
-          </button>
+          
           <IconButton
             type="submit"
             className={`${classes.iconButton} ${s.search}`}
@@ -117,6 +112,15 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
           >
             <SearchIcon />
           </IconButton>
+
+          <button 
+            className={s.clear_btn}
+            onClick={(e) => {
+              console.log('asdasd')
+              setValue('')}}
+          >
+            <img src={Cross} alt="X"/>
+          </button>
         </Route>
 
         <div className={s.language}>
