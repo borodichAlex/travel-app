@@ -116,7 +116,6 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
           <button 
             className={s.clear_btn}
             onClick={(e) => {
-              console.log('asdasd')
               setValue('')}}
           >
             <img src={Cross} alt="X"/>

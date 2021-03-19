@@ -1,4 +1,4 @@
-import { ICountriesAction, ICountry, IPlacesAction } from "../../interfaces";
+import { ICountriesAction, ICountry, IPlaces, IPlacesAction } from "../../interfaces";
 import { SET_COUNTRIES, SET_PLACES } from "../actions/actionTypes";
 
 export const countriesReducer = (state: Array<ICountry> | [] = [], action: ICountriesAction) => {
@@ -13,7 +13,7 @@ export const countriesReducer = (state: Array<ICountry> | [] = [], action: ICoun
     }
 }
 
-export const placesReducer = (state: Array<ICountry> | [] = [], action: IPlacesAction) => {
+export const placesReducer = (state: Array<IPlaces> | [] = [], action: IPlacesAction) => {
     switch(action.type) {
         case SET_PLACES: {
             return action.payload
