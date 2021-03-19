@@ -3,3 +3,12 @@
     width: 100% !important;
     box-sizing: border-box;
 }
+
+.btn {
+    margin-left: 10px;
+}
+
+.btn > Button {
+    background-color: rgba($color: #ffffff00, $alpha: 0);
+    height: 42px;
+}

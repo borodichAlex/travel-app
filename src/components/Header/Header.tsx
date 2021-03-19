@@ -80,6 +80,7 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
             value={value}
             onChange={(e) => setValue(e.target.value)}
           />
+          <button></button>
           <IconButton
             type="submit"
             className={classes.iconButton}
@@ -93,16 +94,22 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
           </IconButton>
         </Route>
 
-        <ButtonGroup color="primary" aria-label="outlined primary button group" style={{marginLeft: '10px', marginRight: '10px'}}>
+        <div className={s.language}>
+          <Localization />
+        </div>  
+
+        <ButtonGroup aria-controls="customized-menu"
+        aria-haspopup="true"
+        variant="contained"
+        color="primary"
+        className={s.btn}>
             {authorized
             ? <Button onClick={handlerClick}>Log out</Button>
             : <Button><RouterLink to="/login">Log in</RouterLink></Button>
         }
         </ButtonGroup>
 
-        <div className={s.language}>
-          <Localization />
-        </div>
+        
 
       </Paper>
     </header>
