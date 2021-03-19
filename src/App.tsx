@@ -31,6 +31,7 @@ function App() {
 
     setDataCountries(searchedCountries)
   }
+  
 
   useEffect(() => {
     getData(lang, "countries").then((data: ICountry[]) => {

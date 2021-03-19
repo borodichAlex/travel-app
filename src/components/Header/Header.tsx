@@ -1,5 +1,6 @@
 import s from "./Header.module.scss";
 import Logo from "../../assets/Logo.png";
+import Cross from '../../assets/Cross.png'
 
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Link as RouterLink } from 'react-router-dom'
@@ -8,7 +9,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import Localization from '../Localization/Localization';
 import { Route, useHistory} from 'react-router';
 import { BASE_URL } from '../../services/constants';
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 interface IHeader {
   handleSearch: (value: string) => void;
@@ -40,6 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const Header: React.FC<IHeader> = ({ handleSearch }) => {
   const classes = useStyles();
   const authorized = Boolean(localStorage.getItem('authorized'));
+  const [iPlaceholder, setIPlaceholder] = useState('Search country')
   const history = useHistory();
 
   const [count, setForceUpdate] = useState(0);
@@ -52,6 +54,23 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
     localStorage.setItem('authorized', "false");
     forceUpdate();
   }
+
+  useEffect(() => {
+    switch(localStorage.getItem('lang')) {
+      case 'be': {
+        setIPlaceholder('Пошук краіны');
+        break;
+      }
+
+      case 'ru': {
+        setIPlaceholder('Поиск страны');
+        break;
+      }
+      default: {
+        setIPlaceholder('Search country');
+      }
+    }
+  }, [localStorage.getItem('lang')])
 
     function forceUpdate() {
         setForceUpdate(count + 1);
@@ -75,14 +94,21 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
         <Route exact path='/'>
           <InputBase
             className={classes.input}
-            placeholder="Search country"
+            placeholder={iPlaceholder}
             inputProps={{ "aria-label": "search country" }}
             value={value}
             onChange={(e) => setValue(e.target.value)}
+            id='header_input'
           />
+          <button 
+            className={s.clear_btn}
+            onClick={() => setValue('')}
+          >
+            <img src={Cross} alt="X"/>
+          </button>
           <IconButton
             type="submit"
-            className={classes.iconButton}
+            className={`${classes.iconButton} ${s.search}`}
             aria-label="search"
             onClick={(e) => {
               e.preventDefault();
@@ -93,16 +119,22 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
           </IconButton>
         </Route>
 
-        <ButtonGroup color="primary" aria-label="outlined primary button group" style={{marginLeft: '10px', marginRight: '10px'}}>
+        <div className={s.language}>
+          <Localization />
+        </div>  
+
+        <ButtonGroup aria-controls="customized-menu"
+        aria-haspopup="true"
+        variant="contained"
+        color="primary"
+        className={s.btn}>
             {authorized
             ? <Button onClick={handlerClick}>Log out</Button>
             : <Button><RouterLink to="/login">Log in</RouterLink></Button>
         }
         </ButtonGroup>
 
-        <div className={s.language}>
-          <Localization />
-        </div>
+        
 
       </Paper>
     </header>

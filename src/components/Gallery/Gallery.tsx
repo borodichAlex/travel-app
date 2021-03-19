@@ -5,7 +5,6 @@ import Previous from "../../assets/Previous.png";
 import Fullscreen from "../../assets/Fullscreen.png";
 import { useSelector } from "react-redux";
 import { IPlaces, IState } from "../../interfaces";
-import { useHistory, useParams } from "react-router";
 
 interface IGallery {
   id: number;
@@ -19,8 +18,6 @@ const Gallery: React.FC<IGallery> = ({ id }) => {
   const [localPlaces, setLocalPlaces] = useState<IPlaces[] | []>([]);
 
   const allPlaces = useSelector((state: IState) => state.places);
-  const history = useHistory();
-
   useEffect(() => {
     document.addEventListener("keyup", handleEscape);
   }, []);
