@@ -133,6 +133,27 @@
   box-shadow: 5px 5px 10px black;
 }
 
+.rate {
+  position: absolute !important;
+  top: 5px;
+  right: 5px;
+}
+
+.star {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+
+  border: none;
+  background-color: #ffffff00;
+
+  outline: none;
+}
+
+.star > img {
+  width: 24px
+}
+
 .fullscreen_button {
   position: absolute;
   bottom: 5px;
@@ -146,6 +167,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
+  z-index: 5;                       //харэ её убирать!
 
   width: 26px;
   height: 26px;

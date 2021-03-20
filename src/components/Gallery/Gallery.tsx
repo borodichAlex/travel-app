@@ -5,22 +5,42 @@ import Previous from "../../assets/Previous.png";
 import Fullscreen from "../../assets/Fullscreen.png";
 import { useSelector } from "react-redux";
 import { IPlaces, IState } from "../../interfaces";
+import Rating from "@material-ui/lab/Rating";
+import Star from '../../assets/Star.png'
+import { useHistory } from "react-router";
 
 interface IGallery {
   id: number;
 }
 
 const Gallery: React.FC<IGallery> = ({ id }) => {
-  const [placeId, setPlaceId] = useState(0);
+  const [placeId, setPlaceId] = useState(0); //номер в массиве от 0 до 6
+  const [currId, setCurrId] = useState(0); // реальный id
+  const [currValue, setCurrValue] = useState(0);
   const [btnsDisabled, setBtnsDisabled] = useState(false);
   const [fullscreen, setFullscreen] = useState("");
+  const [value, setValue] = useState<number[] | []>([]);
   const imgRef = useRef<HTMLImageElement>(null);
   const [localPlaces, setLocalPlaces] = useState<IPlaces[] | []>([]);
+  const history = useHistory();
 
   const allPlaces = useSelector((state: IState) => state.places);
   useEffect(() => {
     document.addEventListener("keyup", handleEscape);
   }, []);
+
+  useEffect(() => {
+    if(localPlaces.length) {
+      setCurrId(localPlaces[placeId].id);
+    }
+
+    handleCurr()
+    
+  }, [placeId, localPlaces])
+
+  const handleCurr = () => {
+    setCurrValue(value[placeId] || 0)
+  }
 
   useEffect(() => {
     if (allPlaces?.length) {
@@ -141,6 +161,23 @@ const Gallery: React.FC<IGallery> = ({ id }) => {
           <h2>{localPlaces[placeId].name}</h2>
           {localPlaces[placeId].description}
         </article>
+        <Rating 
+          value={currValue}
+          onChange={(event, newValue) => {
+            let arr = value;
+            arr[placeId] = newValue || 0;
+            setValue(arr);
+            handleCurr()                      //при элемента с уже существующей оценкой, ререндер не происходит. Поэтому костыль
+
+            //currId to api with newValue and UID
+          }}
+          className={s.rate}
+          key={Math.random()}
+        />
+
+        <button className={s.star} onClick={() => history.push(`/place/:${currId}`)}>
+          <img src={Star} alt="to rate-page" />
+        </button>
       </div>
 
       <div className={s.bottom_gallery}>
