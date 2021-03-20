@@ -38,7 +38,7 @@ function App() {
 
   
 
-  const refreshHeader = () => setCounter(counter + 1);
+  const refresher = () => setCounter(counter + 1);
   
   const handleSearch = (value: string) => {
     const searchedCountries =
@@ -58,6 +58,7 @@ function App() {
 
         <Header
           refresher={counter}
+          forceRefresh={refresher}
           handleSearch={handleSearch}
         />
 
@@ -67,7 +68,7 @@ function App() {
             <MainPage dataCountries={dataCountries}/>
           </Route>
           <Route path="/country/:id">
-            <CountryPage />
+            <CountryPage refresher={counter}/>
           </Route>
           <Route path="/place/:id">
             <RatePage />
@@ -76,10 +77,10 @@ function App() {
             <Page404 />
           </Route>
           <Route path="/registration">
-            <Registration forceHeaderRefresh={refreshHeader}/>
+            <Registration forceHeaderRefresh={refresher}/>
           </Route>
           <Route path="/login">
-            <Login forceHeaderRefresh={refreshHeader}/>
+            <Login forceHeaderRefresh={refresher}/>
           </Route>
           <Redirect to="/404" />
         </Switch>

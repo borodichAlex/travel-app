@@ -27,7 +27,7 @@ const useStyles = makeStyles({
 
 
 
-const CountryPage = () => {
+const CountryPage = (props: any) => {
   const classes = useStyles();
   const { lang } = useContext(LangContext);
 

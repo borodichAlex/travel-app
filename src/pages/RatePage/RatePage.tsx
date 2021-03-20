@@ -4,15 +4,27 @@ import { RootState } from '../../redux/reducers';
 import Rating from '@material-ui/lab/Rating';
 import s from './RatePage.module.scss'
 import { useParams } from 'react-router';
+import { BASE_URL } from '../../services/constants';
 
 const RatePage = () => {
     const places = useSelector((state: RootState) => state.places);
     
     const { id }  = useParams<any>();
-
     const numId = parseInt(id.match(/\d+/))
 
-    if(!places.length) {
+    const [ratingData, setRatingData] = useState<any>([]);
+
+    const getData = async () => {
+        return await fetch(`${BASE_URL}/ratings?placeId=${numId}`);
+    }
+
+    useEffect(() => {
+        getData().then(async data => {
+            setRatingData((await data.json()).data);
+        })
+    }, [])
+
+    if(!places.length && !ratingData.length) {
         return <div>Loading place...</div>
     }
 
@@ -23,14 +35,23 @@ const RatePage = () => {
                 <img src={places[numId - 1].imageUrl} alt={`${places[numId - 1].name} image`}/>
             </div>
 
-            <div className={s.feedback}>
-                <div className={s.user}>
-                    <img src="https://cutt.ly/AximhKv" alt="хто я" title='Андрій'/>
-                    <Rating className={s.rate} value={4} readOnly />
-                </div>
-                <div className={s.feedText}>Ауффф...</div>
-                
+            <div className={s.reviews}>
+                {
+                    ratingData.map(({rating, user}: any) => {
+                        return (
+                            <div className={s.feedback}>
+                            <div className={s.user}>
+                                <img src={user.photoUrl} alt="хто я" title={user.name}/>
+                                <div>{user.name}</div>
+                                <Rating className={s.rate} value={rating} readOnly />
+                            </div>
+                        </div>
+                        )
+                    })
+                }
             </div>
+
+           
         </div>
     )
 }

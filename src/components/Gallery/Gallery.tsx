@@ -8,14 +8,15 @@ import { IPlaces, IState } from "../../interfaces";
 import Rating from "@material-ui/lab/Rating";
 import Star from '../../assets/Star.png'
 import { useHistory } from "react-router";
+import { BASE_URL } from "../../services/constants";
 
 interface IGallery {
   id: number;
 }
 
 const Gallery: React.FC<IGallery> = ({ id }) => {
-  const [placeId, setPlaceId] = useState(0); //номер в массиве от 0 до 6
-  const [currId, setCurrId] = useState(0); // реальный id
+  const [placeIndex, setplaceIndex] = useState(0); //номер в массиве от 0 до 5
+  const [placeId, setplaceId] = useState(0); // реальный id
   const [currValue, setCurrValue] = useState(0);
   const [btnsDisabled, setBtnsDisabled] = useState(false);
   const [fullscreen, setFullscreen] = useState("");
@@ -23,6 +24,23 @@ const Gallery: React.FC<IGallery> = ({ id }) => {
   const imgRef = useRef<HTMLImageElement>(null);
   const [localPlaces, setLocalPlaces] = useState<IPlaces[] | []>([]);
   const history = useHistory();
+  const [ratingData, setRatingData] = useState<any>([]);
+
+  const getData = async () => {
+    return await fetch(`${BASE_URL}/ratings/curr?placeId=${placeId}`, {
+      method: 'GET',
+      credentials: 'include'
+    });
+    
+}
+
+  useEffect(() => {
+      getData().then(async data => {
+        const rating = (await data.json()).rating
+        setCurrValue(rating);
+        console.log(rating);
+      })
+  }, [placeId])
 
   const allPlaces = useSelector((state: IState) => state.places);
   useEffect(() => {
@@ -31,15 +49,15 @@ const Gallery: React.FC<IGallery> = ({ id }) => {
 
   useEffect(() => {
     if(localPlaces.length) {
-      setCurrId(localPlaces[placeId].id);
+      setplaceId(localPlaces[placeIndex].id);
     }
 
     handleCurr()
     
-  }, [placeId, localPlaces])
+  }, [placeIndex, localPlaces])
 
   const handleCurr = () => {
-    setCurrValue(value[placeId] || 0)
+    setCurrValue(value[placeIndex] || 0)
   }
 
   useEffect(() => {
@@ -57,19 +75,19 @@ const Gallery: React.FC<IGallery> = ({ id }) => {
 
   const handleSet = (dir: string | number) => {
     if (dir === "forward") {
-      if (placeId === localPlaces.length - 1) {
-        setPlaceId(0);
+      if (placeIndex === localPlaces.length - 1) {
+        setplaceIndex(0);
       } else {
-        setPlaceId(placeId + 1);
+        setplaceIndex(placeIndex + 1);
       }
     } else if (dir === "back") {
-      if (placeId === 0) {
-        setPlaceId(localPlaces.length - 1);
+      if (placeIndex === 0) {
+        setplaceIndex(localPlaces.length - 1);
       } else {
-        setPlaceId(placeId - 1);
+        setplaceIndex(placeIndex - 1);
       }
     } else if (typeof dir === "number") {
-      setPlaceId(dir);
+      setplaceIndex(dir);
     }
 
     document.getElementById("selected")?.focus();
@@ -118,8 +136,8 @@ const Gallery: React.FC<IGallery> = ({ id }) => {
     <div className={`${s.root} ${s[fullscreen]}`}>
       <div className={s.container}>
         <img
-          src={localPlaces[placeId].imageUrl}
-          alt={localPlaces[placeId].name}
+          src={localPlaces[placeIndex].imageUrl}
+          alt={localPlaces[placeIndex].name}
           id="place_image"
           ref={imgRef}
         />
@@ -158,24 +176,39 @@ const Gallery: React.FC<IGallery> = ({ id }) => {
         </button>
 
         <article className={s.description}>
-          <h2>{localPlaces[placeId].name}</h2>
-          {localPlaces[placeId].description}
+          <h2>{localPlaces[placeIndex].name}</h2>
+          {localPlaces[placeIndex].description}
         </article>
-        <Rating 
+        {
+          JSON.parse(localStorage.getItem('authorized') || 'false')
+          ? <Rating 
           value={currValue}
           onChange={(event, newValue) => {
             let arr = value;
-            arr[placeId] = newValue || 0;
+            arr[placeIndex] = newValue || 0;
             setValue(arr);
-            handleCurr()                      //при элемента с уже существующей оценкой, ререндер не происходит. Поэтому костыль
+            handleCurr()
 
-            //currId to api with newValue and UID
+            const data = new FormData();
+            data.set('placeId', placeId.toString());
+            data.set('rating', newValue!!.toString());
+            
+            fetch(`${BASE_URL}/ratings/add`, {
+              method: 'POST',
+              credentials: 'include',
+              body: data
+            })
+
+            //placeId to api with newValue and UID
           }}
           className={s.rate}
           key={Math.random()}
-        />
+          />
+          : null
 
-        <button className={s.star} onClick={() => history.push(`/place/:${currId}`)}>
+        }
+
+        <button className={s.star} onClick={() => history.push(`/place/${placeId}`)}>
           <img src={Star} alt="to rate-page" />
         </button>
       </div>
@@ -183,7 +216,7 @@ const Gallery: React.FC<IGallery> = ({ id }) => {
       <div className={s.bottom_gallery}>
         <div style={{ display: "flex" }}>
           {localPlaces.map((item: IPlaces, index: number) => {
-            if (index === placeId) {
+            if (index === placeIndex) {
               return (
                 <div
                   className={`${s.small_container}
