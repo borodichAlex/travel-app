@@ -51,7 +51,6 @@ const CountryPage = () => {
   });
 
   useEffect(() => {
-    console.log('asdasd')
     getData('en', "countries").then((data: ICountry[]) => {
       setCountryEng(data);
       console.log(data)

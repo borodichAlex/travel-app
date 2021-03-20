@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Header: React.FC<IHeader> = ({ handleSearch }) => {
   const classes = useStyles();
-  const authorized = Boolean(localStorage.getItem('authorized'));
+  const authorized = JSON.parse(localStorage.getItem('authorized') || 'false');
   const [iPlaceholder, setIPlaceholder] = useState('Search country')
   const history = useHistory();
 
@@ -132,7 +132,7 @@ const Header: React.FC<IHeader> = ({ handleSearch }) => {
         color="primary"
         className={s.btn}>
             {authorized
-            ? <Button onClick={handlerClick}>Log out</Button>
+            ? <Button onClick={handlerClick} style={{backgroundColor: '#3f51b5'}}>Log out</Button>
             : <Button><RouterLink to="/login">Log in</RouterLink></Button>
         }
         </ButtonGroup>
