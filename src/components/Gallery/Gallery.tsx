@@ -5,22 +5,59 @@ import Previous from "../../assets/Previous.png";
 import Fullscreen from "../../assets/Fullscreen.png";
 import { useSelector } from "react-redux";
 import { IPlaces, IState } from "../../interfaces";
+import Rating from "@material-ui/lab/Rating";
+import Star from '../../assets/Star.png'
+import { useHistory } from "react-router";
+import { BASE_URL } from "../../services/constants";
 
 interface IGallery {
   id: number;
 }
 
 const Gallery: React.FC<IGallery> = ({ id }) => {
-  const [placeId, setPlaceId] = useState(0);
+  const [placeIndex, setplaceIndex] = useState(0); //номер в массиве от 0 до 5
+  const [placeId, setplaceId] = useState(0); // реальный id
+  const [currValue, setCurrValue] = useState(0);
   const [btnsDisabled, setBtnsDisabled] = useState(false);
   const [fullscreen, setFullscreen] = useState("");
+  const [value, setValue] = useState<number[] | []>([]);
   const imgRef = useRef<HTMLImageElement>(null);
   const [localPlaces, setLocalPlaces] = useState<IPlaces[] | []>([]);
+  const history = useHistory();
+  const [ratingData, setRatingData] = useState<any>([]);
+
+  const getData = async () => {
+    return await fetch(`${BASE_URL}/ratings/curr?placeId=${placeId}`, {
+      method: 'GET',
+      credentials: 'include'
+    });
+
+}
+
+  useEffect(() => {
+      getData().then(async data => {
+        const rating = (await data.json()).rating
+        setCurrValue(rating);
+      })
+  }, [placeId])
 
   const allPlaces = useSelector((state: IState) => state.places);
   useEffect(() => {
     document.addEventListener("keyup", handleEscape);
   }, []);
+
+  useEffect(() => {
+    if(localPlaces.length) {
+      setplaceId(localPlaces[placeIndex].id);
+    }
+
+    handleCurr()
+
+  }, [placeIndex, localPlaces])
+
+  const handleCurr = () => {
+    setCurrValue(value[placeIndex] || 0)
+  }
 
   useEffect(() => {
     if (allPlaces?.length) {
@@ -37,19 +74,19 @@ const Gallery: React.FC<IGallery> = ({ id }) => {
 
   const handleSet = (dir: string | number) => {
     if (dir === "forward") {
-      if (placeId === localPlaces.length - 1) {
-        setPlaceId(0);
+      if (placeIndex === localPlaces.length - 1) {
+        setplaceIndex(0);
       } else {
-        setPlaceId(placeId + 1);
+        setplaceIndex(placeIndex + 1);
       }
     } else if (dir === "back") {
-      if (placeId === 0) {
-        setPlaceId(localPlaces.length - 1);
+      if (placeIndex === 0) {
+        setplaceIndex(localPlaces.length - 1);
       } else {
-        setPlaceId(placeId - 1);
+        setplaceIndex(placeIndex - 1);
       }
     } else if (typeof dir === "number") {
-      setPlaceId(dir);
+      setplaceIndex(dir);
     }
 
     document.getElementById("selected")?.focus();
@@ -98,8 +135,8 @@ const Gallery: React.FC<IGallery> = ({ id }) => {
     <div className={`${s.root} ${s[fullscreen]}`}>
       <div className={s.container}>
         <img
-          src={localPlaces[placeId].imageUrl}
-          alt={localPlaces[placeId].name}
+          src={localPlaces[placeIndex].imageUrl}
+          alt={localPlaces[placeIndex].name}
           id="place_image"
           ref={imgRef}
         />
@@ -138,15 +175,47 @@ const Gallery: React.FC<IGallery> = ({ id }) => {
         </button>
 
         <article className={s.description}>
-          <h2>{localPlaces[placeId].name}</h2>
-          {localPlaces[placeId].description}
+          <h2>{localPlaces[placeIndex].name}</h2>
+          {localPlaces[placeIndex].description}
         </article>
+        {
+          JSON.parse(localStorage.getItem('authorized') || 'false')
+          ? <Rating
+          value={currValue}
+          onChange={(event, newValue) => {
+            let arr = value;
+            arr[placeIndex] = newValue || 0;
+            setValue(arr);
+            handleCurr()
+
+            const data = new FormData();
+            data.set('placeId', placeId.toString());
+            data.set('rating', newValue!!.toString());
+
+            fetch(`${BASE_URL}/ratings/add`, {
+              method: 'POST',
+              credentials: 'include',
+              body: data
+            })
+
+            //placeId to api with newValue and UID
+          }}
+          className={s.rate}
+          key={Math.random()}
+          />
+          : null
+
+        }
+
+        <button className={s.star} onClick={() => history.push(`/place/${placeId}`)}>
+          <img src={Star} alt="to rate-page" />
+        </button>
       </div>
 
       <div className={s.bottom_gallery}>
         <div style={{ display: "flex" }}>
           {localPlaces.map((item: IPlaces, index: number) => {
-            if (index === placeId) {
+            if (index === placeIndex) {
               return (
                 <div
                   className={`${s.small_container}

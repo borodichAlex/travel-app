@@ -45,11 +45,6 @@ interface ILangsAction {
   payload: ILangs;
 }
 
-interface IPlacesAction {
-  type: string;
-  payload: IPlaces;
-}
-
 interface IPlaces {
   id: number
   name: string
@@ -57,6 +52,13 @@ interface IPlaces {
   countryId: number
   imageUrl: string
 }
+
+interface IPlacesAction {
+  type: string;
+  payload: Array<IPlaces>;
+}
+
+
 
 interface IState {
   countries?:  Array<ICountry>
