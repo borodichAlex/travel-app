@@ -15,6 +15,7 @@ import { getData } from './services/getData';
 import { ICountry, IPlaces } from './interfaces';
 import { RootState } from './redux/reducers';
 import RatePage from './pages/RatePage/RatePage';
+import from './App.css';
 
 function App() {
   const [dataCountries, setDataCountries] = useState<ICountry[] | []>([]);
